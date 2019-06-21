@@ -1,24 +1,24 @@
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 
-import HomeScreen from '~/modules/home/screens/HomeScreen';
+import LoginScreen from '~/modules/login/screens/LoginScreen';
 
-const HomeStack = createStackNavigator(
+const LoginStack = createStackNavigator(
   {
-    HomeScreen: { screen: HomeScreen },
+    LoginScreen: { screen: LoginScreen },
   },
   {
     headerMode: 'none',
-    initialRouteName: 'HomeScreen',
+    initialRouteName: 'LoginScreen',
   },
 );
 
 const Navigation = createStackNavigator(
   {
-    HomeStack: { screen: HomeStack },
+    LoginStack: { screen: LoginStack },
   },
   {
     headerMode: 'none',
-    initialRouteName: 'HomeStack',
+    initialRouteName: 'LoginStack',
     defaultNavigationOptions: {
       gesturesEnabled: false,
     },
