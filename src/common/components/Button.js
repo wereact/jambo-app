@@ -51,8 +51,6 @@ const WrapperLoading = styled.View`
   flex: 1;
 `;
 
-const GifLoading = styled.Image``;
-
 export default function Button(props) {
   const {
     variant,
