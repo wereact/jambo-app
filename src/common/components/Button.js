@@ -36,7 +36,7 @@ const FullButton = styled(SquareButton)`
 const LabelButton = styled.Text`
   font-size: ${typography.regular};
   color: ${props => props.labelColor};
-  font-family: ${type.sf.semiBold};
+  /* font-family: ${type.sf.semiBold}; */
 `;
 
 const DisableLabelButton = styled(LabelButton)`
