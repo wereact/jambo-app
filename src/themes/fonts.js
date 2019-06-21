@@ -56,25 +56,26 @@ function lineHeight(size) {
 }
 
 const type = {
-  // Example how use:
-  // ...Platform.select({
-  //   ios: {
-  //     robot: {
-  //       light: 'RobotoSlab-Light',
-  //       regular: 'RobotoSlab-Regular',
-  //       thin: 'RobotoSlab-Thin',
-  //       bold: 'RobotoSlab-Bold'
-  //     },
-  //   },
-  //   android: {
-  //     robot: {
-  //       light: 'RobotoSlab-Light',
-  //       regular: 'RobotoSlab-Regular',
-  //       thin: 'RobotoSlab-Thin',
-  //       bold: 'RobotoSlab-Bold'
-  //     },
-  //   }
-  // })
+  ...Platform.select({
+    ios: {
+      sf: {
+        light: 'SF-Pro-Display-Light',
+        regular: 'SF-Pro-Display-Regular',
+        medium: 'SF-Pro-Display-Medium',
+        bold: 'SF-Pro-Display-Bold',
+        semiBold: 'SF-Pro-Display-Semibold',
+      },
+    },
+    android: {
+      sf: {
+        light: 'SF-Pro-Display-Light',
+        regular: 'SF-Pro-Display-Regular',
+        medium: 'SF-Pro-Display-Medium',
+        bold: 'SF-Pro-Display-Bold',
+        semiBold: 'SF-Pro-Display-Semibold',
+      },
+    },
+  }),
 };
 
 const typography = {

@@ -12,5 +12,7 @@ When writing your description, follow these topics, listing changes made in each
 - **perf**: A code change that improves performance
 - **refactor**: A code change that neither fixes a bug nor adds a feature
 - **test**: Adding missing tests or correcting existing tests
+- **add**: Adding some things like, assets, components, etc.
+- **updt**: If you update version of some thing like, lib, react native, react, etc.
 
 > Note: If you made no changes related to some topic, just remove it.
