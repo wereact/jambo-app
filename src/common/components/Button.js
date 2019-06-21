@@ -1,16 +1,16 @@
 import React from 'react';
+import { ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
 
 import Touchable from 'react-native-platform-touchable';
 
 import styled from 'styled-components/native';
 
-import { Metrics, Colors, Fonts, Images } from '~/themes';
+import { Metrics, Colors, Fonts } from '~/themes';
 
 const { size, pw } = Metrics;
 const { jamboBlue, lightGrey, white, mediumGrey } = Colors;
 const { typography, type } = Fonts;
-const { gifLoadingWhite } = Images;
 
 const SquareButton = styled(Touchable)`
   padding: ${size(14)}px ${size(62)}px ${size(14)}px ${size(62)}px;
@@ -43,7 +43,7 @@ const DisableLabelButton = styled(LabelButton)`
   color: ${props => props.disabledLabelColor};
 `;
 
-const WrapperGifLoading = styled.View`
+const WrapperLoading = styled.View`
   padding-top: ${size(10)};
   padding-bottom: ${size(3)};
   align-items: center;
@@ -76,9 +76,9 @@ export default function Button(props) {
       widthSquareButton={widthSquareButton}
     >
       {loading ? (
-        <WrapperGifLoading>
-          <GifLoading source={gifLoadingWhite} />
-        </WrapperGifLoading>
+        <WrapperLoading>
+          <ActivityIndicator color={white} />
+        </WrapperLoading>
       ) : (
         <LabelButton labelColor={labelColor}>{labelText}</LabelButton>
       )}
@@ -87,9 +87,9 @@ export default function Button(props) {
   const renderDisabledButton = () => (
     <DisabledButton>
       {loading ? (
-        <WrapperGifLoading>
-          <GifLoading source={gifLoadingWhite} />
-        </WrapperGifLoading>
+        <WrapperLoading>
+          <ActivityIndicator color={white} />
+        </WrapperLoading>
       ) : (
         <DisableLabelButton labelColor={labelColor}>
           {labelText}
@@ -110,9 +110,9 @@ export default function Button(props) {
       widthSquareButton={widthSquareButton}
     >
       {loading ? (
-        <WrapperGifLoading>
-          <GifLoading source={gifLoadingWhite} />
-        </WrapperGifLoading>
+        <WrapperLoading>
+          <ActivityIndicator color={white} />
+        </WrapperLoading>
       ) : (
         <LabelButton labelColor={labelColor}>{labelText}</LabelButton>
       )}
