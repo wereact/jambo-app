@@ -59,20 +59,20 @@ const type = {
   ...Platform.select({
     ios: {
       sf: {
-        light: 'SF-Pro-Display-Light',
-        regular: 'SF-Pro-Display-Regular',
-        medium: 'SF-Pro-Display-Medium',
-        bold: 'SF-Pro-Display-Bold',
-        semiBold: 'SF-Pro-Display-Semibold',
+        light: 'SFProDisplay-Light',
+        regular: 'SFProDisplay-Regular',
+        medium: 'SFProDisplay-Medium',
+        bold: 'SFProDisplay-Bold',
+        semiBold: 'SFProDisplay-Semibold',
       },
     },
     android: {
       sf: {
-        light: 'SF-Pro-Display-Light',
-        regular: 'SF-Pro-Display-Regular',
-        medium: 'SF-Pro-Display-Medium',
-        bold: 'SF-Pro-Display-Bold',
-        semiBold: 'SF-Pro-Display-Semibold',
+        light: 'SFProDisplay-Light',
+        regular: 'SFProDisplay-Regular',
+        medium: 'SFProDisplay-Medium',
+        bold: 'SFProDisplay-Bold',
+        semiBold: 'SFProDisplay-Semibold',
       },
     },
   }),
