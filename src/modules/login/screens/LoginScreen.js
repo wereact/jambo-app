@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import styled from 'styled-components/native';
 
-import { StatusBarManager, Button } from '~/common/components';
+import { FacebookService } from '~/services';
+import { StatusBarManager } from '~/common/components';
 import { Metrics, Colors, Images } from '~/themes';
 
 const { size, iPhoneXHelper } = Metrics;
@@ -48,36 +48,16 @@ export function loginScreenConfig() {
   };
 }
 
-const LoginScreen = ({ navigation }) => (
+const LoginScreen = () => (
   <Container>
     <SafeArea>
       <StatusBarManager />
       <WrapperLogo>
         <Logo source={logoJambo} />
       </WrapperLogo>
-      <WrapperButton>
-        <Button
-          variant="enable"
-          labelText="Logar"
-          onPress={() => {
-            navigation.navigate('LoginScreen');
-          }}
-          hitSlop={{
-            top: 10,
-            left: 10,
-            bottom: 10,
-            right: 10,
-          }}
-        />
-      </WrapperButton>
+      <WrapperButton>{FacebookService.fbLogin(() => {})}</WrapperButton>
     </SafeArea>
   </Container>
 );
 
 export default LoginScreen;
-
-LoginScreen.propTypes = {
-  navigation: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-  ).isRequired,
-};

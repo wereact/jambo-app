@@ -1,10 +1,21 @@
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 
-import LoginScreen from '~/modules/login/screens/LoginScreen';
+import { Authentication } from '~/common/components';
+
+import LoginScreen, {
+  loginScreenConfig,
+} from '~/modules/login/screens/LoginScreen';
+
+import NewsScreen, {
+  newsScreenConfig,
+} from '~/modules/news/screens/NewsScreen';
 
 const LoginStack = createStackNavigator(
   {
-    LoginScreen: { screen: LoginScreen },
+    LoginScreen: {
+      screen: LoginScreen,
+      navigationOptions: loginScreenConfig,
+    },
   },
   {
     headerMode: 'none',
@@ -12,13 +23,33 @@ const LoginStack = createStackNavigator(
   },
 );
 
+const NewsStack = createStackNavigator(
+  {
+    NewsScreen: {
+      screen: NewsScreen,
+      navigationOptions: newsScreenConfig,
+    },
+  },
+  {
+    initialRouteName: 'NewsScreen',
+  },
+);
+
 const Navigation = createStackNavigator(
   {
-    LoginStack: { screen: LoginStack },
+    Authentication: {
+      screen: Authentication,
+    },
+    LoginStack: {
+      screen: LoginStack,
+    },
+    NewsStack: {
+      screen: NewsStack,
+    },
   },
   {
     headerMode: 'none',
-    initialRouteName: 'LoginStack',
+    initialRouteName: 'Authentication',
     defaultNavigationOptions: {
       gesturesEnabled: false,
     },

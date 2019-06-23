@@ -1,5 +1,5 @@
 import Button from './Button';
 import StatusBarManager from './StatusBarManager';
-import ScreenTracking from './ScreenTracking';
+import Authentication from './Authentication';
 
-export { Button, StatusBarManager, ScreenTracking };
+export { Button, StatusBarManager, Authentication };
