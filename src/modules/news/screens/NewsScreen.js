@@ -24,8 +24,9 @@ const SafeArea = styled.SafeAreaView`
 
 const WrapperButton = styled.View`
   flex: 1;
+  align-items: center;
   justify-content: flex-end;
-  padding-bottom: ${size(30)}px;
+  padding-bottom: ${size(50)}px;
 `;
 
 const ExampleText = styled.Text``;
