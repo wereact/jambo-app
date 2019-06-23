@@ -1,10 +1,14 @@
 import React, { useEffect } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components/native';
 import { AccessToken } from 'react-native-fbsdk';
 import AsyncStorage from '@react-native-community/async-storage';
+
+import { Colors } from '~/themes';
+
+const { jamboBlue, mediumGrey } = Colors;
 
 const Container = styled.View`
   flex: 1;
@@ -67,7 +71,9 @@ const Authentication = props => {
   return (
     <Container>
       <WrapperLoading>
-        <ActivityIndicator />
+        <ActivityIndicator
+          color={Platform.OS === 'android' ? jamboBlue : mediumGrey}
+        />
       </WrapperLoading>
     </Container>
   );
