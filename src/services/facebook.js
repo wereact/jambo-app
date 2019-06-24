@@ -47,7 +47,7 @@ function fbLogin() {
                 );
                 console.log(`Error fetching data: ${e.toString()}`);
               } else {
-                this.handleFbDataSave(r, accessToken);
+                handleFbDataSave(r, accessToken);
               }
             };
 
