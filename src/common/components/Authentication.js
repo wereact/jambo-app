@@ -61,7 +61,7 @@ const Authentication = props => {
   useEffect(() => {
     isLoggedIn()
       .then(LoggedIn => {
-        navigate(LoggedIn ? 'NewsScreen' : 'LoginScreen');
+        navigate(LoggedIn ? 'TabBarStack' : 'LoginScreen');
       })
       .catch(() => {
         console.log('error on auth loading');
