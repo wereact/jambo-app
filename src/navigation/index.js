@@ -1,13 +1,10 @@
-import React from 'react';
-
 import {
   createAppContainer,
   createStackNavigator,
   createBottomTabNavigator,
 } from 'react-navigation';
-import Icon from 'react-native-vector-icons/Entypo';
 
-import { Authentication } from '~/common/components';
+import { Authentication, TabBar } from '~/common/components';
 
 import LoginScreen, {
   loginScreenConfig,
@@ -24,10 +21,6 @@ import CoursesScreen, {
 import ProfileScreen, {
   profileScreenConfig,
 } from '~/modules/profile/screens/ProfileScreen';
-
-import { Colors } from '~/themes';
-
-const { black, jamboBlue } = Colors;
 
 const LoginStack = createStackNavigator(
   {
@@ -102,31 +95,8 @@ const TabBarStack = createBottomTabNavigator(
   {
     initialRouteName: 'NewsStack',
     defaultNavigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused }) => {
-        const { routeName } = navigation.state;
-        const tabBarIconColor = focused ? jamboBlue : black;
-        let returnTabBarIcon;
-        if (routeName === 'NewsStack') {
-          returnTabBarIcon = (
-            <Icon name="news" size={18} color={tabBarIconColor} />
-          );
-        } else if (routeName === 'CoursesStack') {
-          returnTabBarIcon = (
-            <Icon name="open-book" size={18} color={tabBarIconColor} />
-          );
-        } else if (routeName === 'ProfileStack') {
-          returnTabBarIcon = (
-            <Icon name="user" size={18} color={tabBarIconColor} />
-          );
-        } else {
-          returnTabBarIcon = null;
-        }
-        return returnTabBarIcon;
-      },
-      tabBarOptions: {
-        activeTintColor: jamboBlue,
-        inactiveTintColor: black,
-      },
+      tabBarIcon: ({ focused }) => TabBar.tabBarIcon(focused, navigation),
+      tabBarOptions: TabBar.tabBarOptions(),
     }),
   },
 );

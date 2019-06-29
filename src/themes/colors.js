@@ -9,6 +9,8 @@ const colors = {
   lightGrey: '#F2F2F2',
   strawberry: '#EF5753',
   overlay: 'rgba(0, 0, 0, .24)',
+  fineBlack: '#1f2833',
+  fineGrey: '#a0a0a0',
 };
 
 export default colors;
