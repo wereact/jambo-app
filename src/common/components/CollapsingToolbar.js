@@ -40,21 +40,6 @@ const Container = styled.View`
   background: ${white};
 `;
 
-const SafeArea = styled.SafeAreaView`
-  margin-top: ${iPhoneXHelper}px;
-  background: ${white};
-`;
-
-const ScrollContainer = styled.ScrollView.attrs(props => ({
-  contentContainerStyle: {
-    padding: size(16),
-    paddingTop: HEADER_EXPANDED_HEIGHT,
-  },
-  onScroll: props.onScroll,
-  scrollEventThrottle: size(16),
-  showsVerticalScrollIndicator: false,
-}))``;
-
 const Header = styled(Animated.View).attrs(props => ({
   height: headerHeight,
   backgroundColor: props.background,
@@ -66,6 +51,25 @@ const Header = styled(Animated.View).attrs(props => ({
   borderBottomColor: lightGrey,
   borderBottomWidth: size(1),
 }))``;
+
+const SafeArea = styled.SafeAreaView`
+  margin-top: ${iPhoneXHelper}px;
+  background: ${white};
+`;
+
+const ScrollContainer = styled.ScrollView.attrs(props => ({
+  contentContainerStyle: {
+    padding: size(16),
+    paddingTop: HEADER_EXPANDED_HEIGHT,
+    backgroundColor: white,
+  },
+  onScroll: props.onScroll,
+  scrollEventThrottle: size(16),
+  showsVerticalScrollIndicator: false,
+}))`
+  flex: 1;
+  margin-top: ${hp('2%')};
+`;
 
 const styles = StyleSheet.create({
   TitleCollapse: {
@@ -89,39 +93,37 @@ export default function CollapsingToolbar(props) {
 
   return (
     <Container>
-      <SafeArea>
-        <Header background={background}>
-          <Animated.Text
-            style={[
-              styles.TitleCollapse,
-              { opacity: headerTitleOpacity, color: titleColor },
-            ]}
-          >
-            {headerTitle}
-          </Animated.Text>
-          <Animated.Text
-            style={[
-              styles.Title,
-              { opacity: heroTitleOpacity, color: titleColor },
-            ]}
-          >
-            {headerTitle}
-          </Animated.Text>
-        </Header>
-        <ScrollContainer
-          onScroll={Animated.event([
-            {
-              nativeEvent: {
-                contentOffset: {
-                  y: scrollY,
-                },
+      <Header background={background}>
+        <Animated.Text
+          style={[
+            styles.TitleCollapse,
+            { opacity: headerTitleOpacity, color: titleColor },
+          ]}
+        >
+          {headerTitle}
+        </Animated.Text>
+        <Animated.Text
+          style={[
+            styles.Title,
+            { opacity: heroTitleOpacity, color: titleColor },
+          ]}
+        >
+          {headerTitle}
+        </Animated.Text>
+      </Header>
+      <ScrollContainer
+        onScroll={Animated.event([
+          {
+            nativeEvent: {
+              contentOffset: {
+                y: scrollY,
               },
             },
-          ])}
-        >
-          {children}
-        </ScrollContainer>
-      </SafeArea>
+          },
+        ])}
+      >
+        <SafeArea>{children}</SafeArea>
+      </ScrollContainer>
     </Container>
   );
 }
