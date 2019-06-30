@@ -9,8 +9,8 @@ import {
 } from 'react-native-responsive-screen';
 
 import { FacebookService } from '~/services';
-import { ProfileDetails } from '~/modules/profile/components';
 import { StatusBarManager, CollapsingToolbar } from '~/common/components';
+import { ProfileDetails } from '~/modules/profile/components';
 import { Metrics, Images, Colors, Fonts } from '~/themes';
 
 const { size } = Metrics;
