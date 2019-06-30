@@ -10,7 +10,7 @@ const { size } = Metrics;
 const { fineBlack, heavyGrey } = Colors;
 const { type, typography } = Fonts;
 
-const Content = styled.View`
+const Container = styled.View`
   display: flex;
   flex: 1;
   flex-direction: row;
@@ -31,10 +31,10 @@ const NameDetail = styled.Text`
 export default function ProfileDetails(props) {
   const { detail, icon } = props;
   return (
-    <Content>
+    <Container>
       <Icon name={icon} size={22} color={heavyGrey} />
       <NameDetail>{detail}</NameDetail>
-    </Content>
+    </Container>
   );
 }
 
