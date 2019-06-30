@@ -143,7 +143,7 @@ Button.propTypes = {
   variant: PropTypes.oneOf(['enable', 'disable', 'full']).isRequired,
   buttonColor: PropTypes.string,
   onPress: PropTypes.func.isRequired,
-  labelText: PropTypes.string,
+  labelText: PropTypes.string.isRequired,
   labelColor: PropTypes.string,
   widthSquareButton: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   loading: PropTypes.bool,

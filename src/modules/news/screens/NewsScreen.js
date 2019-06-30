@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components/native';
-import AsyncStorage from '@react-native-community/async-storage';
 
-import { FacebookService } from '~/services';
-import { StatusBarManager } from '~/common/components';
+import { StatusBarManager, Button } from '~/common/components';
 import { Metrics, Colors } from '~/themes';
 
 const { size, iPhoneXHelper } = Metrics;
@@ -41,20 +39,17 @@ const NewsScreen = props => {
   const { navigation } = props;
   const { navigate } = navigation;
 
-  const handleLogout = async () => {
-    AsyncStorage.clear();
-    navigate('Authentication', { isLogout: true });
-  };
-
   return (
     <Container>
       <SafeArea>
         <StatusBarManager />
         <ExampleText>NewsScreen</ExampleText>
         <WrapperButton>
-          {FacebookService.fbLogout(() => {
-            handleLogout();
-          })}
+          <Button
+            labelText="Open"
+            variant="enable"
+            onPress={() => navigate('ProfileTest')}
+          />
         </WrapperButton>
       </SafeArea>
     </Container>
