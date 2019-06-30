@@ -7,7 +7,7 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import { Colors, Metrics, Fonts } from '~/themes';
 
-const { white, black } = Colors;
+const { white, black, lightGrey } = Colors;
 const { type, typography } = Fonts;
 
 const { iPhoneXHelper, size } = Metrics;
@@ -37,7 +37,6 @@ const heroTitleOpacity = scrollY.interpolate({
 
 const Container = styled.View`
   flex: 1;
-  /* align-items: center; */
   background: ${white};
 `;
 
@@ -64,17 +63,9 @@ const Header = styled(Animated.View).attrs(props => ({
   top: 0,
   left: 0,
   zIndex: 9999,
-}))`
-    /* background: lightblue; */
-    /* position: absolute; */
-    /* width: ${SCREEN_WIDTH}px; */
-    /* height: ${props => props.headerHeight}px; */
-    /* height: ${HEADER_EXPANDED_HEIGHT}; */
-    /* height: 300px; */
-    /* top: 0; */
-    /* left: 0; */
-    /* z-index: 9999; */
-  `;
+  borderBottomColor: lightGrey,
+  borderBottomWidth: size(1),
+}))``;
 
 const styles = StyleSheet.create({
   TitleCollapse: {
