@@ -131,11 +131,11 @@ const WrapperArrowRight = styled.View`
 `;
 
 export default function Card(props) {
-  const { courseImage, courseName, date, author } = props;
+  const { courseImage, courseName, date, author, onPress } = props;
 
   return (
     <Container>
-      <ContentOnPress>
+      <ContentOnPress onPress={onPress ? () => onPress() : null}>
         <WrapperCourseImage>
           <ImageCourse
             source={courseImage ? { uri: courseImage } : imgCoursesPlaceHolder}
@@ -164,6 +164,7 @@ Card.defaultProps = {
   courseImage: '',
   date: '',
   author: '',
+  onPress: () => {},
 };
 
 Card.propTypes = {
@@ -171,4 +172,5 @@ Card.propTypes = {
   courseName: PropTypes.string.isRequired,
   date: PropTypes.string,
   author: PropTypes.string,
+  onPress: PropTypes.func,
 };

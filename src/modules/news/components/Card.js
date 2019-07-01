@@ -122,11 +122,11 @@ const TextSource = styled.Text.attrs(() => ({
 `;
 
 export default function Card(props) {
-  const { category, categoryColor, title, date, source } = props;
+  const { category, categoryColor, title, date, source, onPress } = props;
 
   return (
     <Container>
-      <ContentOnPress>
+      <ContentOnPress onPress={onPress ? () => onPress() : null}>
         <CategoryBox color={categoryColor}>
           <CategoryName>{category.toUpperCase()}</CategoryName>
         </CategoryBox>
@@ -152,6 +152,7 @@ Card.defaultProps = {
   title: '',
   date: '',
   source: '',
+  onPress: () => {},
 };
 
 Card.propTypes = {
@@ -160,4 +161,5 @@ Card.propTypes = {
   title: PropTypes.string,
   date: PropTypes.string,
   source: PropTypes.string,
+  onPress: PropTypes.func,
 };
