@@ -35,6 +35,13 @@ const Container = styled.View.attrs(() => ({
   margin-right: ${wp('1%')};
 `;
 
+const ContentOnPress = styled.TouchableOpacity`
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+`;
+
 const WrapperCourseImage = styled.View`
   width: ${wp('20%')};
   height: ${hp('20%')};
@@ -128,25 +135,27 @@ export default function Card(props) {
 
   return (
     <Container>
-      <WrapperCourseImage>
-        <ImageCourse
-          source={courseImage ? { uri: courseImage } : imgCoursesPlaceHolder}
-        />
-      </WrapperCourseImage>
-      <WrapperDetails>
-        <WrapperCourseName>
-          <TextCourseName>{courseName}</TextCourseName>
-        </WrapperCourseName>
-        <WrapperCourseDate>
-          <TextCourseDate>{date}</TextCourseDate>
-        </WrapperCourseDate>
-        <WrapperCourseAuthor>
-          <TextCourseAuthor>{author}</TextCourseAuthor>
-        </WrapperCourseAuthor>
-      </WrapperDetails>
-      <WrapperArrowRight>
-        <Icon name="arrow-right" size={size(9)} color={fineGrey} />
-      </WrapperArrowRight>
+      <ContentOnPress>
+        <WrapperCourseImage>
+          <ImageCourse
+            source={courseImage ? { uri: courseImage } : imgCoursesPlaceHolder}
+          />
+        </WrapperCourseImage>
+        <WrapperDetails>
+          <WrapperCourseName>
+            <TextCourseName>{courseName}</TextCourseName>
+          </WrapperCourseName>
+          <WrapperCourseDate>
+            <TextCourseDate>{date}</TextCourseDate>
+          </WrapperCourseDate>
+          <WrapperCourseAuthor>
+            <TextCourseAuthor>{author}</TextCourseAuthor>
+          </WrapperCourseAuthor>
+        </WrapperDetails>
+        <WrapperArrowRight>
+          <Icon name="arrow-right" size={size(9)} color={fineGrey} />
+        </WrapperArrowRight>
+      </ContentOnPress>
     </Container>
   );
 }

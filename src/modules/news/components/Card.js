@@ -35,6 +35,12 @@ const Container = styled.View.attrs(() => ({
   margin-right: ${wp('1%')};
 `;
 
+const ContentOnPress = styled.TouchableOpacity`
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+`;
+
 const CategoryBox = styled.View`
   height: ${hp('4%')};
   align-items: center;
@@ -120,20 +126,22 @@ export default function Card(props) {
 
   return (
     <Container>
-      <CategoryBox color={categoryColor}>
-        <CategoryName>{category.toUpperCase()}</CategoryName>
-      </CategoryBox>
-      <WrapperTitle>
-        <TextTitle>{title}</TextTitle>
-      </WrapperTitle>
-      <WrapperDetails>
-        <WrapperDate>
-          <TextDate>{date}</TextDate>
-        </WrapperDate>
-        <WrapperSource>
-          <TextSource>{source}</TextSource>
-        </WrapperSource>
-      </WrapperDetails>
+      <ContentOnPress>
+        <CategoryBox color={categoryColor}>
+          <CategoryName>{category.toUpperCase()}</CategoryName>
+        </CategoryBox>
+        <WrapperTitle>
+          <TextTitle>{title}</TextTitle>
+        </WrapperTitle>
+        <WrapperDetails>
+          <WrapperDate>
+            <TextDate>{date}</TextDate>
+          </WrapperDate>
+          <WrapperSource>
+            <TextSource>{source}</TextSource>
+          </WrapperSource>
+        </WrapperDetails>
+      </ContentOnPress>
     </Container>
   );
 }
