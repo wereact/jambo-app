@@ -3,10 +3,11 @@ import { StyleSheet } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Entypo';
 
-import { Colors, Fonts } from '~/themes';
+import { Colors, Fonts, Metrics } from '~/themes';
 
 const { white, jamboBlue, fineBlack, fineGrey } = Colors;
 const { type, typography } = Fonts;
+const { size } = Metrics;
 
 const styles = StyleSheet.create({
   tabBarLabel: {
@@ -21,6 +22,12 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     backgroundColor: white,
+    borderTopColor: 'transparent',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 5,
   },
 });
 
@@ -29,13 +36,17 @@ function tabBarIcon(focused, navigation) {
   const tabBarIconColor = focused ? jamboBlue : fineGrey;
   let returnTabBarIcon;
   if (routeName === 'NewsStack') {
-    returnTabBarIcon = <Icon name="news" size={18} color={tabBarIconColor} />;
+    returnTabBarIcon = (
+      <Icon name="news" size={size(18)} color={tabBarIconColor} />
+    );
   } else if (routeName === 'CoursesStack') {
     returnTabBarIcon = (
-      <Icon name="open-book" size={18} color={tabBarIconColor} />
+      <Icon name="open-book" size={size(18)} color={tabBarIconColor} />
     );
   } else if (routeName === 'ProfileStack') {
-    returnTabBarIcon = <Icon name="user" size={18} color={tabBarIconColor} />;
+    returnTabBarIcon = (
+      <Icon name="user" size={size(18)} color={tabBarIconColor} />
+    );
   } else {
     returnTabBarIcon = null;
   }

@@ -1,70 +1,121 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { FlatList } from 'react-native';
+// import PropTypes from 'prop-types';
 
 import styled from 'styled-components/native';
-import AsyncStorage from '@react-native-community/async-storage';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
-import { FacebookService } from '~/services';
-import { StatusBarManager } from '~/common/components';
-import { Metrics, Colors } from '~/themes';
+import { StatusBarManager, CollapsingToolbar } from '~/common/components';
+import { Card } from '~/modules/courses/components';
 
-const { size, iPhoneXHelper } = Metrics;
-const { white } = Colors;
-
-const Container = styled.View`
+const Content = styled.View`
+  display: flex;
   flex: 1;
-  align-items: center;
-  background: ${white};
+  margin-left: ${wp('2%')};
+  margin-right: ${wp('2%')};
 `;
 
-const SafeArea = styled.SafeAreaView`
-  margin-top: ${iPhoneXHelper}px;
-  background: ${white};
+const Separator = styled.View`
+  height: ${hp('2%')};
 `;
-
-const WrapperButton = styled.View`
-  flex: 1;
-  align-items: center;
-  justify-content: flex-end;
-  padding-bottom: ${size(50)}px;
-`;
-
-const ExampleText = styled.Text``;
 
 export function coursesScreenConfig() {
-  //   return {
-  //     header: null,
-  //   };
+  return {
+    header: null,
+  };
 }
 
-const CoursesScreen = props => {
-  const { navigation } = props;
-  const { navigate } = navigation;
+const CoursesScreen = () => {
+  // const { navigation } = props;
+  // const { navigate } = navigation;
 
-  const handleLogout = async () => {
-    AsyncStorage.clear();
-    navigate('Authentication', { isLogout: true });
+  const data = [
+    {
+      id: '1',
+      courseImage: 'https://i.imgur.com/pVJSPiF.png',
+      courseName: 'AutoCad',
+      date: '30/06/2019',
+      author: 'Eduardo Albuquerque',
+    },
+    {
+      id: '2',
+      courseImage: '',
+      courseName: 'Engenharia em 2019',
+      date: '03/06/2019',
+      author: 'Eduardo Albuquerque',
+    },
+    {
+      id: '3',
+      courseImage: 'https://i.imgur.com/mgGnMXH.png',
+      courseName: 'A:Z da Engenharia',
+      date: '05/05/2019',
+      author: 'Eduardo Albuquerque',
+    },
+    {
+      id: '4',
+      courseImage: '',
+      courseName: 'Por trás das Contruções',
+      date: '01/07/2019',
+      author: 'Eduardo Albuquerque',
+    },
+    {
+      id: '5',
+      courseImage: 'https://i.imgur.com/DDKBKAe.png',
+      courseName: 'Certificação de BIM',
+      date: '20/03/2019',
+      author: 'Eduardo Albuquerque',
+    },
+    {
+      id: '6',
+      courseImage: 'https://i.imgur.com/OiVthKM.png',
+      courseName: 'Oque é BIM?',
+      date: '14/04/2019',
+      author: 'Eduardo Albuquerque',
+    },
+  ];
+
+  const renderCoursesListItem = item => {
+    const { courseImage, courseName, date, author } = item;
+
+    return (
+      <Card
+        courseImage={courseImage}
+        courseName={courseName}
+        date={date}
+        author={author}
+      />
+    );
   };
 
+  const renderItemSeparator = () => <Separator />;
+
+  const renderCoursesList = () => (
+    <FlatList
+      data={data}
+      renderItem={({ item }) => renderCoursesListItem(item)}
+      keyExtractor={item => item.id.toString()}
+      ItemSeparatorComponent={() => renderItemSeparator()}
+      ListFooterComponent={() => <Separator />}
+      ListHeaderComponent={() => <Separator />}
+      // extraData={this.state} // Flatlist re-render.
+    />
+  );
+
   return (
-    <Container>
-      <SafeArea>
-        <StatusBarManager />
-        <ExampleText>CoursesScreen</ExampleText>
-        <WrapperButton>
-          {FacebookService.fbLogout(() => {
-            handleLogout();
-          })}
-        </WrapperButton>
-      </SafeArea>
-    </Container>
+    <CollapsingToolbar headerTitle="Cursos">
+      <StatusBarManager />
+      <Content>{renderCoursesList()}</Content>
+    </CollapsingToolbar>
   );
 };
 
 export default CoursesScreen;
 
-CoursesScreen.propTypes = {
-  navigation: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-  ).isRequired,
-};
+// CoursesScreen.propTypes = {
+//   navigation: PropTypes.objectOf(
+//     PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+//   ).isRequired,
+// };

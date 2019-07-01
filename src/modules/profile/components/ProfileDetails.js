@@ -32,7 +32,7 @@ export default function ProfileDetails(props) {
   const { detail, icon } = props;
   return (
     <Container>
-      <Icon name={icon} size={22} color={heavyGrey} />
+      <Icon name={icon} size={size(22)} color={heavyGrey} />
       <NameDetail>{detail}</NameDetail>
     </Container>
   );
