@@ -107,7 +107,7 @@ const ProfileScreen = props => {
   const profileEmail = 'samuelmataraso@gmail.com';
 
   return (
-    <CollapsingToolbar headerTitle="Perfil">
+    <CollapsingToolbar headerTitle="Perfil" scrollEnabled={false}>
       <StatusBarManager />
       <Content>
         <WrapperBackgroundGroup>

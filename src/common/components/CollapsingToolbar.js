@@ -66,6 +66,7 @@ const ScrollContainer = styled.ScrollView.attrs(props => ({
   onScroll: props.onScroll,
   scrollEventThrottle: size(16),
   showsVerticalScrollIndicator: false,
+  scrollEnabled: props.scrollEnabled,
 }))`
   flex: 1;
   margin-top: ${hp('2%')};
@@ -89,7 +90,13 @@ const styles = StyleSheet.create({
 });
 
 export default function CollapsingToolbar(props) {
-  const { headerTitle, children, background, titleColor } = props;
+  const {
+    headerTitle,
+    children,
+    background,
+    titleColor,
+    scrollEnabled,
+  } = props;
 
   return (
     <Container>
@@ -112,6 +119,7 @@ export default function CollapsingToolbar(props) {
         </Animated.Text>
       </Header>
       <ScrollContainer
+        scrollEnabled={scrollEnabled}
         onScroll={Animated.event([
           {
             nativeEvent: {
@@ -131,6 +139,7 @@ export default function CollapsingToolbar(props) {
 CollapsingToolbar.defaultProps = {
   background: white,
   titleColor: black,
+  scrollEnabled: true,
 };
 
 CollapsingToolbar.propTypes = {
@@ -140,4 +149,5 @@ CollapsingToolbar.propTypes = {
   ).isRequired,
   background: PropTypes.string,
   titleColor: PropTypes.string,
+  scrollEnabled: PropTypes.bool,
 };
