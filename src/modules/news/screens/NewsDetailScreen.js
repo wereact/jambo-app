@@ -176,6 +176,7 @@ export function newsDetailScreenConfig({ navigation }) {
         {link && <Icon name="share" size={size(18)} color={jamboBlue} />}
       </WrapperHeaderRight>
     ),
+    // tabBar: { visible: false },
   };
 }
 

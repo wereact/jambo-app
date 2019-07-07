@@ -48,12 +48,30 @@ const NewsStack = createStackNavigator(
     NewsDetailScreen: {
       screen: NewsDetailScreen,
       navigationOptions: newsDetailScreenConfig,
+      tabBarVisible: false,
     },
   },
   {
     initialRouteName: 'NewsScreen',
+    navigationOptions: { tabBarVisible: false },
   },
 );
+
+NewsStack.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true;
+  const statsIsNotEmpty = navigation.state.index > 0;
+  const stateOnRoute1 = navigation.state.routes[1];
+  const route1Name = stateOnRoute1
+    ? stateOnRoute1.routeName === 'NewsDetailScreen'
+    : false;
+  if (statsIsNotEmpty && stateOnRoute1 && route1Name) {
+    tabBarVisible = false;
+  }
+
+  return {
+    tabBarVisible,
+  };
+};
 
 const CoursesStack = createStackNavigator(
   {
