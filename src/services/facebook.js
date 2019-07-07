@@ -57,7 +57,8 @@ function fbLogin() {
                 accessToken: fbAccessToken,
                 parameters: {
                   fields: {
-                    string: 'id, email, name, picture.type(large)',
+                    string:
+                      'id, email, name, picture.type(large), gender, address, birthday,',
                   },
                 },
               },
