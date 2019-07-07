@@ -106,25 +106,10 @@ function keyboardVerticalOffset(offset) {
   return returnOffset;
 }
 
-const metrics = {
-  // /**
-  //  * yourScreenMetrics
-  //  */
-  // yourScreenMetrics: {
-  //   keyboardVerticalOffset: keyboardVerticalOffset(-50),
-  //   container: {
-  //     marginTop: ph(8),
-  //     height: size(40),
-  //     width: pw(72)
-  //   }
-  // }
-};
-
 export default {
   pw,
   ph,
   size,
   keyboardVerticalOffset,
   iPhoneXHelper,
-  metrics,
 };

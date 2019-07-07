@@ -88,23 +88,8 @@ const typography = {
   tiny: sizeNormalize(9),
 };
 
-const style = {
-  // Example how use:
-  // /**
-  //  * yourScreenFonts
-  //  */
-  // yourScreenFonts: {
-  //  styleExample: {
-  //    fontFamily: type.robot.light,
-  //    fontSize: size.medium,
-  //     lineHeight: lineHeight(20)
-  //  }
-  // },
-};
-
 export default {
   type,
   typography,
-  style,
   lineHeight,
 };

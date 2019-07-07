@@ -34,7 +34,7 @@ const FullButton = styled(SquareButton)`
 `;
 
 const LabelButton = styled.Text`
-  font-size: ${typography.regular};
+  font-size: ${typography.medium};
   color: ${props => props.labelColor};
   font-family: ${type.sf.semiBold};
 `;

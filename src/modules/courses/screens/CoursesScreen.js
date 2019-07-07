@@ -41,7 +41,7 @@ const CoursesScreen = props => {
       author: 'Eduardo Albuquerque',
       body:
         'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
-      courseLink: 'https://www.ifood.com',
+      courseLink: 'https://www.google.com',
       videoLink: 'https://www.youtube.com/watch?v=4KkLuRFtuCc',
     },
     {
@@ -52,7 +52,7 @@ const CoursesScreen = props => {
       author: 'Eduardo Albuquerque',
       body:
         'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
-      courseLink: 'https://www.ifood.com',
+      courseLink: 'https://www.google.com',
       videoLink: 'https://www.youtube.com/watch?v=4KkLuRFtuCc',
     },
     {
@@ -63,7 +63,7 @@ const CoursesScreen = props => {
       author: 'Eduardo Albuquerque',
       body:
         'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
-      courseLink: '',
+      courseLink: 'https://www.google.com',
       videoLink: 'https://www.youtube.com/watch?v=4KkLuRFtuCc',
     },
     {
@@ -74,7 +74,7 @@ const CoursesScreen = props => {
       author: 'Eduardo Albuquerque',
       body:
         'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
-      courseLink: 'https://www.ifood.com',
+      courseLink: 'https://www.google.com',
       videoLink: '',
     },
     {
@@ -85,7 +85,7 @@ const CoursesScreen = props => {
       author: 'Eduardo Albuquerque',
       body:
         'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
-      courseLink: 'https://www.ifood.com',
+      courseLink: 'https://www.google.com',
       videoLink: 'https://www.youtube.com/watch?v=4KkLuRFtuCc',
     },
     {
@@ -96,7 +96,7 @@ const CoursesScreen = props => {
       author: 'Eduardo Albuquerque',
       body:
         'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
-      courseLink: '',
+      courseLink: 'https://www.google.com',
       videoLink: 'https://www.youtube.com/watch?v=4KkLuRFtuCc',
     },
   ];

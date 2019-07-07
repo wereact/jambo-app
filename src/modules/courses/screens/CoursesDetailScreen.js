@@ -10,7 +10,7 @@ import {
 } from 'react-native-responsive-screen';
 import Share from 'react-native-share';
 
-import { StatusBarManager } from '~/common/components';
+import { StatusBarManager, Button } from '~/common/components';
 import { Metrics, Colors, Fonts, Images } from '~/themes';
 
 const { iPhoneXHelper, size } = Metrics;
@@ -136,7 +136,7 @@ const WrapperVideoTitle = styled.View`
   width: ${wp('20%')};
   justify-content: center;
   align-items: flex-start;
-  margin-bottom: ${hp('2%')};
+  margin-bottom: ${hp('3%')};
 `;
 
 const TextVideoTitle = styled.Text.attrs(() => ({
@@ -150,10 +150,7 @@ const TextVideoTitle = styled.Text.attrs(() => ({
   font-weight: normal;
 `;
 
-const WrapperVideoThumbnail = styled.View`
-  border-color: ${lightGrey};
-  border-width: ${size(1)};
-`;
+const WrapperVideoThumbnail = styled.View``;
 
 const ImgVideoThumbnail = styled.Image.attrs(() => ({
   resizeMode: 'cover',
@@ -163,12 +160,12 @@ const ImgVideoThumbnail = styled.Image.attrs(() => ({
   height: ${hp('40%')};
 `;
 
-const WrapperPlayVideo = styled.TouchableOpacity`
+const WrapperOverlayVideo = styled.TouchableOpacity`
   position: absolute;
   background: ${overlay};
   width: ${wp('90%')};
-  height: ${hp('40%')};
-  bottom: ${hp('5%')};
+  height: ${hp('41%')};
+  bottom: ${hp('21%')};
   left: ${wp('5%')};
   justify-content: center;
   align-items: center;
@@ -180,6 +177,13 @@ const IconPlayVideo = styled.Image.attrs(() => ({
 }))`
   width: ${wp('10%')};
   height: ${hp('20%')};
+`;
+
+const WrapperCourseButton = styled.View`
+  margin-top: ${hp('5%')};
+  justify-content: center;
+  align-items: center;
+  width: ${wp('90%')};
 `;
 
 export function coursesDetailScreenConfig() {
@@ -232,6 +236,14 @@ const CoursesDetailScreen = ({ navigation }) => {
                 </WrapperVideoThumbnail>
               </WrapperVideo>
             ) : null}
+            <WrapperCourseButton>
+              <Button
+                onPress={() => Linking.openURL(courseLink)}
+                variant="enable"
+                labelText="Ir para o Curso"
+                widthSquareButton={wp('80%')}
+              />
+            </WrapperCourseButton>
           </WrapperContent>
           <WrapperHeaderLeft
             onPress={() => goBack()}
@@ -245,23 +257,20 @@ const CoursesDetailScreen = ({ navigation }) => {
             <Icon name="arrow-left" size={size(18)} color={jamboBlue} />
           </WrapperHeaderLeft>
           <WrapperHeaderRight
-            onPress={courseLink ? () => Share.open(shareOptions) : () => {}}
+            onPress={() => Share.open(shareOptions)}
             hitSlop={{
               top: 10,
               left: 10,
               bottom: 10,
               right: 10,
             }}
-            disabled={!courseLink && true}
           >
-            {courseLink ? (
-              <Icon name="share" size={size(18)} color={jamboBlue} />
-            ) : null}
+            <Icon name="share" size={size(18)} color={jamboBlue} />
           </WrapperHeaderRight>
           {videoLink ? (
-            <WrapperPlayVideo onPress={() => Linking.openURL(videoLink)}>
+            <WrapperOverlayVideo onPress={() => Linking.openURL(videoLink)}>
               <IconPlayVideo source={iconPlay} />
-            </WrapperPlayVideo>
+            </WrapperOverlayVideo>
           ) : null}
         </Content>
       </SafeArea>
