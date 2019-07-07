@@ -10,11 +10,35 @@ import {
 } from 'react-native-fbsdk';
 
 import { Navigator } from '~/common/utils';
+import { db } from '~/config/firebase';
 
 const handleFbDataSave = async (data, accessToken) => {
   await AsyncStorage.setItem('@fb_data', JSON.stringify(data));
   await AsyncStorage.setItem('@fb_access_token', JSON.stringify(accessToken));
   Navigator.navigate('Authentication', { isLogout: false });
+};
+
+const mutationFirebase = async (item, accessToken) => {
+  const id = item && item.id ? item.id : '';
+  const name = item && item.name ? item.name : '';
+  const objPicture = item && item.picture && item.picture.data;
+  const picture = objPicture ? item.picture.data.url : '';
+  try {
+    await db.ref(`users/ + ${id}`).set({
+      fbId: id,
+      fbName: name,
+      fbPictureUrl: picture,
+    });
+    return handleFbDataSave(item, accessToken);
+  } catch (err) {
+    console.log(`error on query:  + ${err}`);
+    return Alert.alert(
+      'Ops!',
+      'Ocorreu um problema ao efetuar o login. Por favor, tenta novamente mais tarde.',
+      [{ text: 'OK' }],
+      { cancelable: false },
+    );
+  }
 };
 
 function fbLogin() {
@@ -37,7 +61,7 @@ function fbLogin() {
             const { accessToken } = data;
             const fbAccessToken = accessToken;
 
-            const responseInfoCallback = (e, r) => {
+            const responseInfoCallback = async (e, r) => {
               if (error) {
                 Alert.alert(
                   'Ops!',
@@ -47,7 +71,8 @@ function fbLogin() {
                 );
                 console.log(`Error fetching data: ${e.toString()}`);
               } else {
-                handleFbDataSave(r, accessToken);
+                // handleFbDataSave(r, accessToken);
+                await mutationFirebase(r, accessToken);
               }
             };
 
@@ -57,8 +82,7 @@ function fbLogin() {
                 accessToken: fbAccessToken,
                 parameters: {
                   fields: {
-                    string:
-                      'id, email, name, picture.type(large), gender, address, birthday,',
+                    string: 'id, email, name, picture.type(large)',
                   },
                 },
               },
@@ -89,3 +113,46 @@ export default {
   fbLogout,
   handleFbDataSave,
 };
+
+// How use Query on Firebase:
+
+// Create a reference to the cities collection
+// const usersRef = db.ref('users');
+
+// Create a query against the collection.
+// const queryFirebase = async item => {
+//   let returnResult;
+//   await usersRef.once(
+//     'value',
+//     snapshot => {
+// try {
+//         // const data = snapshot.val();
+//         // if (data) {
+//         //   // Get the data by object
+//         //   // const items = Object.values(data);
+//         //   returnResult = mutationFirebase(item);
+//         // } else {
+//         //   returnResult = mutationFirebase(item);
+//         // }
+// } catch (err) {
+//   console.log(`error on query:  + ${err}`);
+//   return Alert.alert(
+//     'Ops!',
+//     'Ocorreu um problema ao efetuar o login. Por favor, tenta novamente mais tarde.',
+//     [{ text: 'OK' }],
+//     { cancelable: false },
+//   );
+// }
+//       return returnResult;
+//     },
+//     errorObject => {
+//       console.log(`error on query:  + ${errorObject.code}`);
+//       return Alert.alert(
+//         'Ops!',
+//         'Ocorreu um problema ao efetuar o login. Por favor, tenta novamente mais tarde.',
+//         [{ text: 'OK' }],
+//         { cancelable: false },
+//       );
+//     },
+//   );
+// };
