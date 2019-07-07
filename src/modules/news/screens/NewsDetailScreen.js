@@ -7,6 +7,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import Share from 'react-native-share';
 
 import { StatusBarManager } from '~/common/components';
 import { Metrics, Colors, Fonts } from '~/themes';
@@ -137,6 +138,14 @@ export function newsDetailScreenConfig({ navigation }) {
   const { goBack, state } = navigation;
   const { params } = state;
   const { title, link } = params;
+  const shareOptions = {
+    title: 'Jambo News!',
+    message: `Hey! \n Se liga nessa Jambo News Sobre: ${title}! \n`,
+    url: `Link da notícia: ${link}`,
+    subject: 'Jambo News!',
+    failOnCancel: false,
+  };
+
   return {
     headerStyle: {
       backgroundColor: white,
@@ -164,7 +173,7 @@ export function newsDetailScreenConfig({ navigation }) {
     ),
     headerRight: (
       <WrapperHeaderRight
-        onPress={link ? () => {} : () => {}}
+        onPress={link ? () => Share.open(shareOptions) : () => {}}
         hitSlop={{
           top: 10,
           left: 10,
