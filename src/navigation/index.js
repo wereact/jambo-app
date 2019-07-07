@@ -2,7 +2,9 @@ import {
   createAppContainer,
   createStackNavigator,
   createBottomTabNavigator,
+  NavigationActions,
 } from 'react-navigation';
+import { Platform } from 'react-native';
 
 import { Authentication, TabBar } from '~/common/components';
 
@@ -169,5 +171,58 @@ const Navigation = createStackNavigator(
     },
   },
 );
+
+// Disable Android hardware back button on specific screen
+if (Platform.OS === 'android') {
+  const defaultGetStateForAction = Navigation.router.getStateForAction;
+
+  Navigation.router.getStateForAction = (action, state) => {
+    const { type } = action;
+    const androidBack = NavigationActions.BACK;
+
+    const screen = state ? state.routes[state.index] : null;
+    const tab = screen && screen.routes ? screen.routes[screen.index] : null;
+    const tbScreen = tab && tab.routes ? tab.routes[tab.index] : null;
+
+    const NewsTab = tab && tab.routeName === 'NewsStack';
+    const NewsTabScreen = tbScreen && tbScreen.routeName === 'NewsScreen';
+    const CoursesTab = tab && tab.routeName === 'CoursesStack';
+    const CoursesTabScreen = tbScreen && tbScreen.routeName === 'CoursesScreen';
+    const ProfileTab = tab && tab.routeName === 'ProfileStack';
+    const ProfileTabScreen = tbScreen && tbScreen.routeName === 'ProfileScreen';
+    // const LoginTabScreen = tab && tab.routeName === 'LoginScreen';
+    // const LoginTabScreen = tbScreen && tbScreen.routeName === 'LoginScreen';
+
+    const someNews = NewsTab || NewsTabScreen;
+    const someCourses = CoursesTab || CoursesTabScreen;
+    const someProfile = ProfileTab || ProfileTabScreen;
+    // const someLogin = LoginTabScreen;
+
+    const isDisable = someNews || someCourses || someProfile;
+    // console.log('isDisable lol', isDisable);
+    // console.log('screen lol', screen);
+    // console.log('tab lol', tab);
+    // console.log('tbScreen lol', tbScreen);
+    if (type === androidBack && isDisable) {
+      // Option 1: will close the application
+      // return null;
+
+      // Option 2: will keep the app open
+      const newRoutes = state.routes.filter(
+        r => r.routeName !== 'Authentication',
+      );
+      const newIndex = newRoutes.length - 1;
+      // console.log('newRoutes lol', newRoutes);
+      // console.log('newIndex lol', newIndex);
+
+      return defaultGetStateForAction(action, {
+        index: newIndex,
+        routes: newRoutes,
+      });
+    }
+
+    return defaultGetStateForAction(action, state);
+  };
+}
 
 export default createAppContainer(Navigation);
