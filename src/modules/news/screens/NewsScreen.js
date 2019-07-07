@@ -53,6 +53,7 @@ const NewsScreen = props => {
       source: 'Folha da Engenharia',
       body:
         'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
+      link: '',
     },
     {
       id: '3',
