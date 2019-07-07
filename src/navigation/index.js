@@ -14,6 +14,10 @@ import NewsScreen, {
   newsScreenConfig,
 } from '~/modules/news/screens/NewsScreen';
 
+import NewsDetailScreen, {
+  newsDetailScreenConfig,
+} from '~/modules/news/screens/NewsDetailScreen';
+
 import CoursesScreen, {
   coursesScreenConfig,
 } from '~/modules/courses/screens/CoursesScreen';
@@ -40,6 +44,10 @@ const NewsStack = createStackNavigator(
     NewsScreen: {
       screen: NewsScreen,
       navigationOptions: newsScreenConfig,
+    },
+    NewsDetailScreen: {
+      screen: NewsDetailScreen,
+      navigationOptions: newsDetailScreenConfig,
     },
   },
   {

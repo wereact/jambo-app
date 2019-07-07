@@ -85,6 +85,7 @@ const WrapperDetails = styled.View`
   justify-content: space-between;
   margin-bottom: ${hp('2%')};
   width: ${wp('80%')};
+  align-items: center;
 `;
 
 const WrapperDate = styled.View`

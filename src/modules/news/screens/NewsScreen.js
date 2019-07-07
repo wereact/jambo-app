@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList } from 'react-native';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import styled from 'styled-components/native';
 import {
@@ -28,9 +28,9 @@ export function newsScreenConfig() {
   };
 }
 
-const NewsScreen = () => {
-  // const { navigation } = props;
-  // const { navigate } = navigation;
+const NewsScreen = props => {
+  const { navigation } = props;
+  const { navigate } = navigation;
 
   const data = [
     {
@@ -40,6 +40,9 @@ const NewsScreen = () => {
       title: 'Certificação de BIM',
       date: '30/06/2019',
       source: 'Folha da Engenharia',
+      body:
+        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
+      link: 'https://www.youtube.com',
     },
     {
       id: '2',
@@ -48,6 +51,8 @@ const NewsScreen = () => {
       title: 'Jambo inovando o mercado de Curso de Engenharia Civl',
       date: '10/06/2019',
       source: 'Folha da Engenharia',
+      body:
+        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
     },
     {
       id: '3',
@@ -56,6 +61,9 @@ const NewsScreen = () => {
       title: 'Certificação de BIM',
       date: '05/03/2019',
       source: 'Folha da Engenharia',
+      body:
+        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
+      link: 'https://www.terra.com',
     },
     {
       id: '4',
@@ -64,6 +72,9 @@ const NewsScreen = () => {
       title: 'Jambo lança App voltado para Cursos em Engenharia Civil.',
       date: '15/07/2019',
       source: 'Folha da Engenharia',
+      body:
+        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
+      link: 'https://www.reddit.com',
     },
     {
       id: '5',
@@ -72,6 +83,9 @@ const NewsScreen = () => {
       title: 'BIM será obrigatório a partir de 2020',
       date: '02/07/2019',
       source: 'Folha da Engenharia',
+      body:
+        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
+      link: 'https://www.twitter.com',
     },
     {
       id: '6',
@@ -81,11 +95,14 @@ const NewsScreen = () => {
         'Cursos da área de Engenharia Civil agora são feitos de modo Tecnologico/Online pela Jambo.',
       date: '30/06/2019',
       source: 'Folha da Engenharia',
+      body:
+        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
+      link: 'https://www.ifood.com',
     },
   ];
 
   const renderNewsListItem = item => {
-    const { category, categoryColor, title, date, source } = item;
+    const { category, categoryColor, title, date, source, body, link } = item;
 
     return (
       <Card
@@ -94,6 +111,15 @@ const NewsScreen = () => {
         title={title}
         date={date}
         source={source}
+        onPress={() =>
+          navigate('NewsDetailScreen', {
+            title,
+            date,
+            source,
+            body,
+            link,
+          })
+        }
       />
     );
   };
@@ -122,8 +148,8 @@ const NewsScreen = () => {
 
 export default NewsScreen;
 
-// NewsScreen.propTypes = {
-//   navigation: PropTypes.objectOf(
-//     PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-//   ).isRequired,
-// };
+NewsScreen.propTypes = {
+  navigation: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+  ).isRequired,
+};
