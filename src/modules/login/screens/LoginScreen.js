@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Platform, BackHandler } from 'react-native';
 
 import styled from 'styled-components/native';
 
@@ -49,16 +50,32 @@ export function loginScreenConfig() {
   };
 }
 
-const LoginScreen = () => (
-  <Container>
-    <SafeArea>
-      <StatusBarManager />
-      <WrapperLogo>
-        <Logo source={logoJambo} />
-      </WrapperLogo>
-      <WrapperButton>{FacebookService.fbLogin(() => {})}</WrapperButton>
-    </SafeArea>
-  </Container>
-);
+const LoginScreen = () => {
+  const handleBackButton = () => true;
+
+  // Disable Android hardware back button on LoginScreen
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    }
+    return () => {
+      if (Platform.OS === 'android') {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+      }
+    };
+  }, []);
+
+  return (
+    <Container>
+      <SafeArea>
+        <StatusBarManager />
+        <WrapperLogo>
+          <Logo source={logoJambo} />
+        </WrapperLogo>
+        <WrapperButton>{FacebookService.fbLogin(() => {})}</WrapperButton>
+      </SafeArea>
+    </Container>
+  );
+};
 
 export default LoginScreen;

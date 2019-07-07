@@ -172,7 +172,7 @@ const Navigation = createStackNavigator(
   },
 );
 
-// Disable Android hardware back button on specific screen
+// Disable Android hardware back button on specifics screens
 if (Platform.OS === 'android') {
   const defaultGetStateForAction = Navigation.router.getStateForAction;
 
@@ -190,19 +190,12 @@ if (Platform.OS === 'android') {
     const CoursesTabScreen = tbScreen && tbScreen.routeName === 'CoursesScreen';
     const ProfileTab = tab && tab.routeName === 'ProfileStack';
     const ProfileTabScreen = tbScreen && tbScreen.routeName === 'ProfileScreen';
-    // const LoginTabScreen = tab && tab.routeName === 'LoginScreen';
-    // const LoginTabScreen = tbScreen && tbScreen.routeName === 'LoginScreen';
 
     const someNews = NewsTab || NewsTabScreen;
     const someCourses = CoursesTab || CoursesTabScreen;
     const someProfile = ProfileTab || ProfileTabScreen;
-    // const someLogin = LoginTabScreen;
-
     const isDisable = someNews || someCourses || someProfile;
-    // console.log('isDisable lol', isDisable);
-    // console.log('screen lol', screen);
-    // console.log('tab lol', tab);
-    // console.log('tbScreen lol', tbScreen);
+
     if (type === androidBack && isDisable) {
       // Option 1: will close the application
       // return null;
@@ -212,8 +205,6 @@ if (Platform.OS === 'android') {
         r => r.routeName !== 'Authentication',
       );
       const newIndex = newRoutes.length - 1;
-      // console.log('newRoutes lol', newRoutes);
-      // console.log('newIndex lol', newIndex);
 
       return defaultGetStateForAction(action, {
         index: newIndex,
