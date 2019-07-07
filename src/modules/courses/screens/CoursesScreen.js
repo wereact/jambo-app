@@ -75,7 +75,7 @@ const CoursesScreen = props => {
       body:
         'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
       courseLink: 'https://www.ifood.com',
-      videoLink: 'https://www.youtube.com/watch?v=4KkLuRFtuCc',
+      videoLink: '',
     },
     {
       id: '5',

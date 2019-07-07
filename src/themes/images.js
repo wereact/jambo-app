@@ -5,6 +5,8 @@ const images = {
   imgGroupPeople: require('~/assets/images/img-group-people.png'),
   imgCoursesPlaceHolder: require('~/assets/images/img-courses-placeholder.png'),
   imgGroupStudying: require('~/assets/images/img-group-studying.png'),
+  imgGroupVideo: require('~/assets/images/img-group-video.png'),
+  iconPlay: require('~/assets/images/icons/play.png'),
 };
 
 export default images;

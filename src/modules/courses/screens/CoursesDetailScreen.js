@@ -1,4 +1,5 @@
 import React from 'react';
+import { Linking } from 'react-native';
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components/native';
@@ -13,9 +14,9 @@ import { StatusBarManager } from '~/common/components';
 import { Metrics, Colors, Fonts, Images } from '~/themes';
 
 const { iPhoneXHelper, size } = Metrics;
-const { white, black, jamboBlue, lightGrey, fineGrey } = Colors;
+const { white, black, jamboBlue, lightGrey, fineGrey, overlay } = Colors;
 const { typography, type } = Fonts;
-const { imgGroupStudying } = Images;
+const { imgGroupStudying, imgGroupVideo, iconPlay } = Images;
 
 const WrapperHeaderLeft = styled.TouchableOpacity`
   position: absolute;
@@ -127,6 +128,60 @@ const BackgroundGroup = styled.Image.attrs(() => ({
   height: ${hp('40%')};
 `;
 
+const WrapperVideo = styled.View`
+  margin-top: ${hp('2%')};
+`;
+
+const WrapperVideoTitle = styled.View`
+  width: ${wp('20%')};
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: ${hp('2%')};
+`;
+
+const TextVideoTitle = styled.Text.attrs(() => ({
+  ellipsizeMode: 'tail',
+  numberOfLines: 1,
+}))`
+  text-align: center;
+  font-family: ${type.sf.medium};
+  font-size: ${typography.smallMinus};
+  color: ${fineGrey};
+  font-weight: normal;
+`;
+
+const WrapperVideoThumbnail = styled.View`
+  border-color: ${lightGrey};
+  border-width: ${size(1)};
+`;
+
+const ImgVideoThumbnail = styled.Image.attrs(() => ({
+  resizeMode: 'cover',
+  resizeMethod: 'resize',
+}))`
+  width: ${wp('80%')};
+  height: ${hp('40%')};
+`;
+
+const WrapperPlayVideo = styled.TouchableOpacity`
+  position: absolute;
+  background: ${overlay};
+  width: ${wp('90%')};
+  height: ${hp('40%')};
+  bottom: ${hp('5%')};
+  left: ${wp('5%')};
+  justify-content: center;
+  align-items: center;
+`;
+
+const IconPlayVideo = styled.Image.attrs(() => ({
+  resizeMode: 'contain',
+  resizeMethod: 'resize',
+}))`
+  width: ${wp('10%')};
+  height: ${hp('20%')};
+`;
+
 export function coursesDetailScreenConfig() {
   return {
     header: null,
@@ -136,7 +191,7 @@ export function coursesDetailScreenConfig() {
 const CoursesDetailScreen = ({ navigation }) => {
   const { goBack, state } = navigation;
   const { params } = state;
-  const { title, author, body, courseLink } = params;
+  const { title, author, body, courseLink, videoLink } = params;
   const shareOptions = {
     title: 'Cursos Jambo!',
     message: `Hey! \n Se liga nesse Curso da Jambo Sobre: ${title}! \n`,
@@ -166,6 +221,17 @@ const CoursesDetailScreen = ({ navigation }) => {
             <WrapperBody>
               <TextBody>{body}</TextBody>
             </WrapperBody>
+            {videoLink ? (
+              <WrapperVideo>
+                <WrapperVideoTitle>
+                  <TextVideoTitle>Vídeo</TextVideoTitle>
+                </WrapperVideoTitle>
+
+                <WrapperVideoThumbnail>
+                  <ImgVideoThumbnail source={imgGroupVideo} />
+                </WrapperVideoThumbnail>
+              </WrapperVideo>
+            ) : null}
           </WrapperContent>
           <WrapperHeaderLeft
             onPress={() => goBack()}
@@ -192,6 +258,11 @@ const CoursesDetailScreen = ({ navigation }) => {
               <Icon name="share" size={size(18)} color={jamboBlue} />
             ) : null}
           </WrapperHeaderRight>
+          {videoLink ? (
+            <WrapperPlayVideo onPress={() => Linking.openURL(videoLink)}>
+              <IconPlayVideo source={iconPlay} />
+            </WrapperPlayVideo>
+          ) : null}
         </Content>
       </SafeArea>
     </Container>
