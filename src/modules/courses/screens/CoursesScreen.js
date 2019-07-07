@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList } from 'react-native';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import styled from 'styled-components/native';
 import {
@@ -28,9 +28,9 @@ export function coursesScreenConfig() {
   };
 }
 
-const CoursesScreen = () => {
-  // const { navigation } = props;
-  // const { navigate } = navigation;
+const CoursesScreen = props => {
+  const { navigation } = props;
+  const { navigate } = navigation;
 
   const data = [
     {
@@ -39,6 +39,10 @@ const CoursesScreen = () => {
       courseName: 'AutoCad',
       date: '30/06/2019',
       author: 'Eduardo Albuquerque',
+      body:
+        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
+      courseLink: 'https://www.ifood.com',
+      videoLink: 'https://www.youtube.com/watch?v=4KkLuRFtuCc',
     },
     {
       id: '2',
@@ -46,6 +50,10 @@ const CoursesScreen = () => {
       courseName: 'Engenharia em 2019',
       date: '03/06/2019',
       author: 'Eduardo Albuquerque',
+      body:
+        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
+      courseLink: 'https://www.ifood.com',
+      videoLink: 'https://www.youtube.com/watch?v=4KkLuRFtuCc',
     },
     {
       id: '3',
@@ -53,6 +61,10 @@ const CoursesScreen = () => {
       courseName: 'A:Z da Engenharia',
       date: '05/05/2019',
       author: 'Eduardo Albuquerque',
+      body:
+        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
+      courseLink: '',
+      videoLink: 'https://www.youtube.com/watch?v=4KkLuRFtuCc',
     },
     {
       id: '4',
@@ -60,6 +72,10 @@ const CoursesScreen = () => {
       courseName: 'Por trás das Contruções',
       date: '01/07/2019',
       author: 'Eduardo Albuquerque',
+      body:
+        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
+      courseLink: 'https://www.ifood.com',
+      videoLink: 'https://www.youtube.com/watch?v=4KkLuRFtuCc',
     },
     {
       id: '5',
@@ -67,6 +83,10 @@ const CoursesScreen = () => {
       courseName: 'Certificação de BIM',
       date: '20/03/2019',
       author: 'Eduardo Albuquerque',
+      body:
+        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
+      courseLink: 'https://www.ifood.com',
+      videoLink: 'https://www.youtube.com/watch?v=4KkLuRFtuCc',
     },
     {
       id: '6',
@@ -74,11 +94,23 @@ const CoursesScreen = () => {
       courseName: 'Oque é BIM?',
       date: '14/04/2019',
       author: 'Eduardo Albuquerque',
+      body:
+        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
+      courseLink: '',
+      videoLink: 'https://www.youtube.com/watch?v=4KkLuRFtuCc',
     },
   ];
 
   const renderCoursesListItem = item => {
-    const { courseImage, courseName, date, author } = item;
+    const {
+      courseImage,
+      courseName,
+      date,
+      author,
+      body,
+      courseLink,
+      videoLink,
+    } = item;
 
     return (
       <Card
@@ -86,6 +118,15 @@ const CoursesScreen = () => {
         courseName={courseName}
         date={date}
         author={author}
+        onPress={() =>
+          navigate('CoursesDetailScreen', {
+            title: courseName,
+            author,
+            body,
+            videoLink,
+            courseLink,
+          })
+        }
       />
     );
   };
@@ -114,8 +155,8 @@ const CoursesScreen = () => {
 
 export default CoursesScreen;
 
-// CoursesScreen.propTypes = {
-//   navigation: PropTypes.objectOf(
-//     PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-//   ).isRequired,
-// };
+CoursesScreen.propTypes = {
+  navigation: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+  ).isRequired,
+};

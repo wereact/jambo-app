@@ -22,6 +22,10 @@ import CoursesScreen, {
   coursesScreenConfig,
 } from '~/modules/courses/screens/CoursesScreen';
 
+import CoursesDetailScreen, {
+  coursesDetailScreenConfig,
+} from '~/modules/courses/screens/CoursesDetailScreen';
+
 import ProfileScreen, {
   profileScreenConfig,
 } from '~/modules/profile/screens/ProfileScreen';
@@ -77,11 +81,31 @@ const CoursesStack = createStackNavigator(
       screen: CoursesScreen,
       navigationOptions: coursesScreenConfig,
     },
+    CoursesDetailScreen: {
+      screen: CoursesDetailScreen,
+      navigationOptions: coursesDetailScreenConfig,
+    },
   },
   {
     initialRouteName: 'CoursesScreen',
   },
 );
+
+CoursesStack.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true;
+  const statsIsNotEmpty = navigation.state.index > 0;
+  const stateOnRoute1 = navigation.state.routes[1];
+  const route1Name = stateOnRoute1
+    ? stateOnRoute1.routeName === 'CoursesDetailScreen'
+    : false;
+  if (statsIsNotEmpty && stateOnRoute1 && route1Name) {
+    tabBarVisible = false;
+  }
+
+  return {
+    tabBarVisible,
+  };
+};
 
 const ProfileStack = createStackNavigator(
   {

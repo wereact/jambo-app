@@ -107,7 +107,6 @@ const WrapperSource = styled.View`
   width: ${wp('30%')};
   justify-content: center;
   align-items: flex-start;
-  /* background: black; */
 `;
 
 const TextSource = styled.Text.attrs(() => ({
@@ -182,10 +181,9 @@ export function newsDetailScreenConfig({ navigation }) {
         }}
         disabled={!link && true}
       >
-        {link && <Icon name="share" size={size(18)} color={jamboBlue} />}
+        {link ? <Icon name="share" size={size(18)} color={jamboBlue} /> : null}
       </WrapperHeaderRight>
     ),
-    // tabBar: { visible: false },
   };
 }
 
@@ -210,7 +208,7 @@ const NewsDetailScreen = ({ navigation }) => {
             </WrapperSource>
           </WrapperDetails>
           <WrapperBody>
-            <TextBody>{body + body}</TextBody>
+            <TextBody>{body}</TextBody>
           </WrapperBody>
         </Content>
       </SafeArea>
