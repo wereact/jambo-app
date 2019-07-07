@@ -48,12 +48,10 @@ const NewsStack = createStackNavigator(
     NewsDetailScreen: {
       screen: NewsDetailScreen,
       navigationOptions: newsDetailScreenConfig,
-      tabBarVisible: false,
     },
   },
   {
     initialRouteName: 'NewsScreen',
-    navigationOptions: { tabBarVisible: false },
   },
 );
 
