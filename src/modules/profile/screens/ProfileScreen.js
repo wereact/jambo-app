@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components/native';
@@ -98,13 +98,29 @@ const ProfileScreen = props => {
   const { navigation } = props;
   const { navigate } = navigation;
 
+  const [profile, setProfile] = useState(null);
+
+  const loadData = async () => {
+    const profileFb = await AsyncStorage.getItem('@fb_data');
+    setProfile(JSON.parse(profileFb));
+  };
+
   const handleLogout = async () => {
     AsyncStorage.clear();
     navigate('Authentication', { isLogout: true });
   };
 
-  const profileName = 'Samuel Mataraso';
-  const profileEmail = 'samuelmataraso@gmail.com';
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const profileAvatarLoaded = profile && profile.picture.data;
+  const profileNameLoaded = profile && profile.name;
+  const profileEmailLoaded = profile && profile.name;
+
+  const profileAvatar = profileAvatarLoaded ? profile.picture.data.url : null;
+  const profileName = profileNameLoaded ? profile.name : '';
+  const profileEmail = profileEmailLoaded ? profile.email : '';
 
   return (
     <CollapsingToolbar headerTitle="Perfil" scrollEnabled={false}>
@@ -115,14 +131,20 @@ const ProfileScreen = props => {
         </WrapperBackgroundGroup>
         <ContentProfileAvatar>
           <WrapperProfileAvatar>
-            <ProfileAvatar source={imgAvatarPlaceHolder} />
+            <ProfileAvatar
+              source={
+                profileAvatar ? { uri: profileAvatar } : imgAvatarPlaceHolder
+              }
+            />
           </WrapperProfileAvatar>
         </ContentProfileAvatar>
         <WrapperProfileName>
-          <ProfileName>{profileName}</ProfileName>
+          {profileName ? <ProfileName>{profileName}</ProfileName> : null}
         </WrapperProfileName>
         <WrapperProfileDetails>
-          <ProfileDetails icon="email" detail={profileEmail} />
+          {profileEmail ? (
+            <ProfileDetails icon="email" detail={profileEmail} />
+          ) : null}
         </WrapperProfileDetails>
         <WrapperButton>
           {FacebookService.fbLogout(() => {

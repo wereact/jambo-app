@@ -21,12 +21,14 @@ const handleFbDataSave = async (data, accessToken) => {
 const mutationFirebase = async (item, accessToken) => {
   const id = item && item.id ? item.id : '';
   const name = item && item.name ? item.name : '';
+  const email = item && item.email ? item.email : ''; // check why email dont come
   const objPicture = item && item.picture && item.picture.data;
   const picture = objPicture ? item.picture.data.url : '';
   try {
     await db.ref(`users/ + ${id}`).set({
       fbId: id,
       fbName: name,
+      fbEmail: email,
       fbPictureUrl: picture,
     });
     return handleFbDataSave(item, accessToken);
