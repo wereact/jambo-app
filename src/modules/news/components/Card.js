@@ -1,7 +1,9 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components/native';
+import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 
 import {
   widthPercentageToDP as wp,
@@ -122,26 +124,59 @@ const TextSource = styled.Text.attrs(() => ({
   font-weight: normal;
 `;
 
+const styles = StyleSheet.create({
+  shimmerComponent: {
+    alignSelf: 'stretch',
+    marginBottom: 10,
+  },
+});
+
 export default function Card(props) {
-  const { category, categoryColor, title, date, source, onPress } = props;
+  const {
+    category,
+    categoryColor,
+    title,
+    date,
+    source,
+    onPress,
+    shimmer,
+  } = props;
 
   return (
     <Container>
       <ContentOnPress onPress={onPress ? () => onPress() : null}>
-        <CategoryBox color={!category ? white : categoryColor}>
-          <CategoryName>{category.toUpperCase()}</CategoryName>
-        </CategoryBox>
+        <ShimmerPlaceHolder
+          style={styles.shimmerComponent}
+          autoRun
+          visible={shimmer}
+        >
+          <CategoryBox color={!category ? white : categoryColor}>
+            <CategoryName>{category.toUpperCase()}</CategoryName>
+          </CategoryBox>
+        </ShimmerPlaceHolder>
         <WrapperTitle>
-          <TextTitle>{title}</TextTitle>
+          <ShimmerPlaceHolder
+            style={styles.shimmerComponent}
+            autoRun
+            visible={shimmer}
+          >
+            <TextTitle>{title}</TextTitle>
+          </ShimmerPlaceHolder>
         </WrapperTitle>
-        <WrapperDetails>
-          <WrapperDate>
-            <TextDate>{date}</TextDate>
-          </WrapperDate>
-          <WrapperSource>
-            <TextSource>{source}</TextSource>
-          </WrapperSource>
-        </WrapperDetails>
+        <ShimmerPlaceHolder
+          style={styles.shimmerComponent}
+          autoRun
+          visible={shimmer}
+        >
+          <WrapperDetails>
+            <WrapperDate>
+              <TextDate>{date}</TextDate>
+            </WrapperDate>
+            <WrapperSource>
+              <TextSource>{source}</TextSource>
+            </WrapperSource>
+          </WrapperDetails>
+        </ShimmerPlaceHolder>
       </ContentOnPress>
     </Container>
   );
@@ -154,6 +189,7 @@ Card.defaultProps = {
   date: '',
   source: '',
   onPress: () => {},
+  shimmer: false,
 };
 
 Card.propTypes = {
@@ -163,4 +199,5 @@ Card.propTypes = {
   date: PropTypes.string,
   source: PropTypes.string,
   onPress: PropTypes.func,
+  shimmer: PropTypes.bool,
 };

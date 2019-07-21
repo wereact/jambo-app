@@ -34,7 +34,15 @@ export function newsScreenConfig() {
 const NewsScreen = props => {
   const { navigation } = props;
   const { navigate } = navigation;
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([
+    {
+      category: '',
+      title: '',
+      date: '',
+      source: '',
+    },
+  ]);
+  const [shimmer, setShimmer] = useState(false);
 
   const renderNewsListItem = item => {
     const {
@@ -54,6 +62,7 @@ const NewsScreen = props => {
         title={title}
         date={date}
         source={source}
+        shimmer={shimmer}
         onPress={() =>
           navigate('NewsDetailScreen', {
             title,
@@ -90,6 +99,7 @@ const NewsScreen = props => {
           arr = R.append(doc.data(), arr);
         });
         setData(arr);
+        setShimmer(true);
       })
       .catch(error => {
         console.log('error lol', error);
