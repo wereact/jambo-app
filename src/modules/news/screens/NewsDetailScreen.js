@@ -136,11 +136,11 @@ const TextBody = styled.Text`
 export function newsDetailScreenConfig({ navigation }) {
   const { goBack, state } = navigation;
   const { params } = state;
-  const { title, link } = params;
+  const { title, newsLink } = params;
   const shareOptions = {
     title: 'Jambo News!',
     message: `Hey! \n Se liga nessa Jambo News Sobre: ${title}! \n`,
-    url: `Link da notícia: ${link}`,
+    url: `Link da notícia: ${newsLink}`,
     subject: 'Jambo News!',
     failOnCancel: false,
   };
@@ -172,16 +172,18 @@ export function newsDetailScreenConfig({ navigation }) {
     ),
     headerRight: (
       <WrapperHeaderRight
-        onPress={link ? () => Share.open(shareOptions) : () => {}}
+        onPress={newsLink ? () => Share.open(shareOptions) : () => {}}
         hitSlop={{
           top: 10,
           left: 10,
           bottom: 10,
           right: 10,
         }}
-        disabled={!link && true}
+        disabled={!newsLink && true}
       >
-        {link ? <Icon name="share" size={size(18)} color={jamboBlue} /> : null}
+        {newsLink ? (
+          <Icon name="share" size={size(18)} color={jamboBlue} />
+        ) : null}
       </WrapperHeaderRight>
     ),
   };

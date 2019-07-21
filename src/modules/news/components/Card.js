@@ -11,7 +11,7 @@ import {
 import { Metrics, Colors, Fonts } from '~/themes';
 
 const { size } = Metrics;
-const { fineBlack, white, fineGrey } = Colors;
+const { fineBlack, white, fineGrey, jamboBlue } = Colors;
 const { type, typography } = Fonts;
 
 const Container = styled.View.attrs(() => ({
@@ -128,7 +128,7 @@ export default function Card(props) {
   return (
     <Container>
       <ContentOnPress onPress={onPress ? () => onPress() : null}>
-        <CategoryBox color={categoryColor}>
+        <CategoryBox color={!category ? white : categoryColor}>
           <CategoryName>{category.toUpperCase()}</CategoryName>
         </CategoryBox>
         <WrapperTitle>
@@ -149,7 +149,7 @@ export default function Card(props) {
 
 Card.defaultProps = {
   category: '',
-  categoryColor: white,
+  categoryColor: jamboBlue,
   title: '',
   date: '',
   source: '',

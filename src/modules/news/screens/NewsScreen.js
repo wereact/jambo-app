@@ -1,5 +1,5 @@
-import React from 'react';
-import { FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components/native';
@@ -7,9 +7,12 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import R from 'ramda';
+import uuidv4 from 'uuid/v4';
 
 import { StatusBarManager, CollapsingToolbar } from '~/common/components';
 import { Card } from '~/modules/news/components';
+import { db } from '~/config/firebase';
 
 const Content = styled.View`
   display: flex;
@@ -31,79 +34,18 @@ export function newsScreenConfig() {
 const NewsScreen = props => {
   const { navigation } = props;
   const { navigate } = navigation;
-
-  const data = [
-    {
-      id: '1',
-      category: 'BIM',
-      categoryColor: '#87CEFA',
-      title: 'Certificação de BIM',
-      date: '30/06/2019',
-      source: 'Folha da Engenharia',
-      body:
-        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
-      link: 'https://www.youtube.com',
-    },
-    {
-      id: '2',
-      category: 'Inovação',
-      categoryColor: '#FF8C00',
-      title: 'Jambo inovando o mercado de Curso de Engenharia Civl',
-      date: '10/06/2019',
-      source: 'Folha da Engenharia',
-      body:
-        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
-      link: '',
-    },
-    {
-      id: '3',
-      category: 'Engenharia',
-      categoryColor: '#228B22',
-      title: 'Certificação de BIM',
-      date: '05/03/2019',
-      source: 'Folha da Engenharia',
-      body:
-        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
-      link: 'https://www.terra.com',
-    },
-    {
-      id: '4',
-      category: 'Tecnologia',
-      categoryColor: '#6A5ACD',
-      title: 'Jambo lança App voltado para Cursos em Engenharia Civil.',
-      date: '15/07/2019',
-      source: 'Folha da Engenharia',
-      body:
-        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
-      link: 'https://www.reddit.com',
-    },
-    {
-      id: '5',
-      category: 'BIM',
-      categoryColor: '#87CEFA',
-      title: 'BIM será obrigatório a partir de 2020',
-      date: '02/07/2019',
-      source: 'Folha da Engenharia',
-      body:
-        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
-      link: 'https://www.twitter.com',
-    },
-    {
-      id: '6',
-      category: 'Tecnologia',
-      categoryColor: '#6A5ACD',
-      title:
-        'Cursos da área de Engenharia Civil agora são feitos de modo Tecnologico/Online pela Jambo.',
-      date: '30/06/2019',
-      source: 'Folha da Engenharia',
-      body:
-        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
-      link: 'https://www.ifood.com',
-    },
-  ];
+  const [data, setData] = useState([]);
 
   const renderNewsListItem = item => {
-    const { category, categoryColor, title, date, source, body, link } = item;
+    const {
+      category,
+      categoryColor,
+      title,
+      date,
+      source,
+      body,
+      newsLink,
+    } = item;
 
     return (
       <Card
@@ -118,7 +60,7 @@ const NewsScreen = props => {
             date,
             source,
             body,
-            link,
+            newsLink,
           })
         }
       />
@@ -131,13 +73,38 @@ const NewsScreen = props => {
     <FlatList
       data={data}
       renderItem={({ item }) => renderNewsListItem(item)}
-      keyExtractor={item => item.id.toString()}
+      keyExtractor={() => uuidv4()}
       ItemSeparatorComponent={() => renderItemSeparator()}
       ListFooterComponent={() => <Separator />}
       ListHeaderComponent={() => <Separator />}
-      // extraData={this.state} // Flatlist re-render.
+      extraData={data} // Flatlist re-render.
     />
   );
+
+  const queryFirebase = async () => {
+    let arr = [];
+    db.collection('news')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          arr = R.append(doc.data(), arr);
+        });
+        setData(arr);
+      })
+      .catch(error => {
+        console.log('error lol', error);
+        return Alert.alert(
+          'Ops!',
+          'Ocorreu um problema ao carregar os dados, tenta novamente mais tarde.',
+          [{ text: 'OK' }],
+          { cancelable: false },
+        );
+      });
+  };
+
+  useEffect(() => {
+    queryFirebase();
+  }, []);
 
   return (
     <CollapsingToolbar headerTitle="Notícias">
