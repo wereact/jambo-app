@@ -63,14 +63,17 @@ const NewsScreen = props => {
         date={date}
         source={source}
         shimmer={shimmer}
-        onPress={() =>
-          navigate('NewsDetailScreen', {
-            title,
-            date,
-            source,
-            body,
-            newsLink,
-          })
+        onPress={
+          shimmer
+            ? () =>
+                navigate('NewsDetailScreen', {
+                  title,
+                  date,
+                  source,
+                  body,
+                  newsLink,
+                })
+            : () => {}
         }
       />
     );

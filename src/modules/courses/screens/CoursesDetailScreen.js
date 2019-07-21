@@ -195,11 +195,11 @@ export function coursesDetailScreenConfig() {
 const CoursesDetailScreen = ({ navigation }) => {
   const { goBack, state } = navigation;
   const { params } = state;
-  const { title, author, body, courseLink, videoLink } = params;
+  const { title, author, description, externalLink, youtubeLink } = params;
   const shareOptions = {
     title: 'Cursos Jambo!',
     message: `Hey! \n Se liga nesse Curso da Jambo Sobre: ${title}! \n`,
-    url: `Link do Curso: ${courseLink}`,
+    url: `Link do Curso: ${externalLink}`,
     subject: 'Cursos Jambo!',
     failOnCancel: false,
   };
@@ -223,9 +223,9 @@ const CoursesDetailScreen = ({ navigation }) => {
               <TextDescription>Descrição</TextDescription>
             </WrapperDescription>
             <WrapperBody>
-              <TextBody>{body}</TextBody>
+              <TextBody>{description}</TextBody>
             </WrapperBody>
-            {videoLink ? (
+            {youtubeLink ? (
               <WrapperVideo>
                 <WrapperVideoTitle>
                   <TextVideoTitle>Vídeo</TextVideoTitle>
@@ -238,7 +238,7 @@ const CoursesDetailScreen = ({ navigation }) => {
             ) : null}
             <WrapperCourseButton>
               <Button
-                onPress={() => Linking.openURL(courseLink)}
+                onPress={() => Linking.openURL(externalLink)}
                 variant="enable"
                 labelText="Ir para o Curso"
                 widthSquareButton={wp('80%')}
@@ -267,8 +267,8 @@ const CoursesDetailScreen = ({ navigation }) => {
           >
             <Icon name="share" size={size(18)} color={jamboBlue} />
           </WrapperHeaderRight>
-          {videoLink ? (
-            <WrapperOverlayVideo onPress={() => Linking.openURL(videoLink)}>
+          {youtubeLink ? (
+            <WrapperOverlayVideo onPress={() => Linking.openURL(youtubeLink)}>
               <IconPlayVideo source={iconPlay} />
             </WrapperOverlayVideo>
           ) : null}

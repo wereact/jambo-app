@@ -138,8 +138,8 @@ export default function Card(props) {
     title,
     date,
     source,
-    onPress,
     shimmer,
+    onPress,
   } = props;
 
   return (
@@ -188,8 +188,8 @@ Card.defaultProps = {
   title: '',
   date: '',
   source: '',
-  onPress: () => {},
   shimmer: false,
+  onPress: () => {},
 };
 
 Card.propTypes = {
@@ -198,6 +198,6 @@ Card.propTypes = {
   title: PropTypes.string,
   date: PropTypes.string,
   source: PropTypes.string,
-  onPress: PropTypes.func,
   shimmer: PropTypes.bool,
+  onPress: PropTypes.func,
 };

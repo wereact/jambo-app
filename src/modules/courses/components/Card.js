@@ -1,8 +1,10 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 
 import {
   widthPercentageToDP as wp,
@@ -72,7 +74,6 @@ const WrapperDetails = styled.View`
 const WrapperCourseName = styled.View`
   margin-bottom: ${hp('2%')};
   width: ${wp('50%')};
-  /* background: red; */
 `;
 
 const TextCourseName = styled.Text.attrs(() => ({
@@ -88,8 +89,6 @@ const TextCourseName = styled.Text.attrs(() => ({
 
 const WrapperCourseDate = styled.View`
   margin-bottom: ${hp('2%')};
-  /* width: ${wp('50%')}; */
-  /* background: red; */
 `;
 
 const TextCourseDate = styled.Text.attrs(() => ({
@@ -130,47 +129,96 @@ const WrapperArrowRight = styled.View`
   right: ${wp('3%')};
 `;
 
+const styles = StyleSheet.create({
+  shimmerComponent: {
+    alignSelf: 'stretch',
+    marginBottom: 10,
+    width: wp('50%'),
+  },
+  postUserImage: {
+    width: wp('20%'),
+    height: hp('20%'),
+    borderTopLeftRadius: size(5),
+    borderBottomLeftRadius: size(5),
+    borderRightColor: lightGrey,
+    borderRightWidth: 1,
+  },
+});
+
 export default function Card(props) {
-  const { courseImage, courseName, date, author, onPress } = props;
+  const { imageLink, name, date, authorName, shimmer, onPress } = props;
 
   return (
     <Container>
       <ContentOnPress onPress={onPress ? () => onPress() : null}>
         <WrapperCourseImage>
-          <ImageCourse
-            source={courseImage ? { uri: courseImage } : imgCoursesPlaceHolder}
-          />
+          <ShimmerPlaceHolder
+            style={styles.postUserImage}
+            backgroundColorBehindBorder="white"
+            visible={shimmer}
+          >
+            <ImageCourse
+              source={imageLink ? { uri: imageLink } : imgCoursesPlaceHolder}
+            />
+          </ShimmerPlaceHolder>
         </WrapperCourseImage>
         <WrapperDetails>
           <WrapperCourseName>
-            <TextCourseName>{courseName}</TextCourseName>
+            <ShimmerPlaceHolder
+              style={styles.shimmerComponent}
+              autoRun
+              visible={shimmer}
+            >
+              <TextCourseName>{name}</TextCourseName>
+            </ShimmerPlaceHolder>
           </WrapperCourseName>
           <WrapperCourseDate>
-            <TextCourseDate>{date}</TextCourseDate>
+            <ShimmerPlaceHolder
+              style={styles.shimmerComponent}
+              autoRun
+              visible={shimmer}
+            >
+              <TextCourseDate>{date}</TextCourseDate>
+            </ShimmerPlaceHolder>
           </WrapperCourseDate>
-          <WrapperCourseAuthor>
-            <TextCourseAuthor>{author}</TextCourseAuthor>
-          </WrapperCourseAuthor>
+          {!shimmer && (
+            <ShimmerPlaceHolder
+              style={styles.shimmerComponent}
+              autoRun
+              visible={shimmer}
+            >
+              <TextCourseAuthor>{authorName}</TextCourseAuthor>
+            </ShimmerPlaceHolder>
+          )}
+          {shimmer && (
+            <WrapperCourseAuthor>
+              <TextCourseAuthor>{authorName}</TextCourseAuthor>
+            </WrapperCourseAuthor>
+          )}
         </WrapperDetails>
-        <WrapperArrowRight>
-          <Icon name="arrow-right" size={size(9)} color={fineGrey} />
-        </WrapperArrowRight>
+        {shimmer && (
+          <WrapperArrowRight>
+            <Icon name="arrow-right" size={size(9)} color={fineGrey} />
+          </WrapperArrowRight>
+        )}
       </ContentOnPress>
     </Container>
   );
 }
 
 Card.defaultProps = {
-  courseImage: '',
+  imageLink: '',
   date: '',
-  author: '',
+  authorName: '',
+  shimmer: false,
   onPress: () => {},
 };
 
 Card.propTypes = {
-  courseImage: PropTypes.string,
-  courseName: PropTypes.string.isRequired,
+  imageLink: PropTypes.string,
+  name: PropTypes.string.isRequired,
   date: PropTypes.string,
-  author: PropTypes.string,
+  authorName: PropTypes.string,
+  shimmer: PropTypes.bool,
   onPress: PropTypes.func,
 };

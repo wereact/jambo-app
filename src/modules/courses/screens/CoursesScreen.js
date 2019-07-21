@@ -1,5 +1,5 @@
-import React from 'react';
-import { FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components/native';
@@ -7,9 +7,12 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import R from 'ramda';
+import uuidv4 from 'uuid/v4';
 
 import { StatusBarManager, CollapsingToolbar } from '~/common/components';
 import { Card } from '~/modules/courses/components';
+import { db } from '~/config/firebase';
 
 const Content = styled.View`
   display: flex;
@@ -32,100 +35,44 @@ const CoursesScreen = props => {
   const { navigation } = props;
   const { navigate } = navigation;
 
-  const data = [
+  const [data, setData] = useState([
     {
-      id: '1',
-      courseImage: 'https://i.imgur.com/pVJSPiF.png',
-      courseName: 'AutoCad',
-      date: '30/06/2019',
-      author: 'Eduardo Albuquerque',
-      body:
-        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
-      courseLink: 'https://www.google.com',
-      videoLink: 'https://www.youtube.com/watch?v=4KkLuRFtuCc',
+      name: '',
+      date: '',
+      authorName: '',
     },
-    {
-      id: '2',
-      courseImage: '',
-      courseName: 'Engenharia em 2019',
-      date: '03/06/2019',
-      author: 'Eduardo Albuquerque',
-      body:
-        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
-      courseLink: 'https://www.google.com',
-      videoLink: 'https://www.youtube.com/watch?v=4KkLuRFtuCc',
-    },
-    {
-      id: '3',
-      courseImage: 'https://i.imgur.com/mgGnMXH.png',
-      courseName: 'A:Z da Engenharia',
-      date: '05/05/2019',
-      author: 'Eduardo Albuquerque',
-      body:
-        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
-      courseLink: 'https://www.google.com',
-      videoLink: 'https://www.youtube.com/watch?v=4KkLuRFtuCc',
-    },
-    {
-      id: '4',
-      courseImage: '',
-      courseName: 'Por trás das Contruções',
-      date: '01/07/2019',
-      author: 'Eduardo Albuquerque',
-      body:
-        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
-      courseLink: 'https://www.google.com',
-      videoLink: '',
-    },
-    {
-      id: '5',
-      courseImage: 'https://i.imgur.com/DDKBKAe.png',
-      courseName: 'Certificação de BIM',
-      date: '20/03/2019',
-      author: 'Eduardo Albuquerque',
-      body:
-        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
-      courseLink: 'https://www.google.com',
-      videoLink: 'https://www.youtube.com/watch?v=4KkLuRFtuCc',
-    },
-    {
-      id: '6',
-      courseImage: 'https://i.imgur.com/OiVthKM.png',
-      courseName: 'Oque é BIM?',
-      date: '14/04/2019',
-      author: 'Eduardo Albuquerque',
-      body:
-        'Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum, neque sem pretium metus. Nam dapibus nisl vitae elit fringilla rutrum. Aenean sollicitudin, erat a elementum rutrum',
-      courseLink: 'https://www.google.com',
-      videoLink: 'https://www.youtube.com/watch?v=4KkLuRFtuCc',
-    },
-  ];
+  ]);
+  const [shimmer, setShimmer] = useState(false);
 
   const renderCoursesListItem = item => {
     const {
-      courseImage,
-      courseName,
+      imageLink,
+      name,
       date,
-      author,
-      body,
-      courseLink,
-      videoLink,
+      authorName,
+      description,
+      externalLink,
+      youtubeLink,
     } = item;
 
     return (
       <Card
-        courseImage={courseImage}
-        courseName={courseName}
+        imageLink={imageLink}
+        name={name}
         date={date}
-        author={author}
-        onPress={() =>
-          navigate('CoursesDetailScreen', {
-            title: courseName,
-            author,
-            body,
-            videoLink,
-            courseLink,
-          })
+        authorName={authorName}
+        shimmer={shimmer}
+        onPress={
+          shimmer
+            ? () =>
+                navigate('CoursesDetailScreen', {
+                  title: name,
+                  authorName,
+                  description,
+                  youtubeLink,
+                  externalLink,
+                })
+            : () => {}
         }
       />
     );
@@ -137,13 +84,39 @@ const CoursesScreen = props => {
     <FlatList
       data={data}
       renderItem={({ item }) => renderCoursesListItem(item)}
-      keyExtractor={item => item.id.toString()}
+      keyExtractor={() => uuidv4()}
       ItemSeparatorComponent={() => renderItemSeparator()}
       ListFooterComponent={() => <Separator />}
       ListHeaderComponent={() => <Separator />}
-      // extraData={this.state} // Flatlist re-render.
+      extraData={data} // Flatlist re-render.
     />
   );
+
+  const queryFirebase = async () => {
+    let arr = [];
+    db.collection('courses')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          arr = R.append(doc.data(), arr);
+        });
+        setData(arr);
+        setShimmer(true);
+      })
+      .catch(error => {
+        console.log('error lol', error);
+        return Alert.alert(
+          'Ops!',
+          'Ocorreu um problema ao carregar os dados, tenta novamente mais tarde.',
+          [{ text: 'OK' }],
+          { cancelable: false },
+        );
+      });
+  };
+
+  useEffect(() => {
+    queryFirebase();
+  }, []);
 
   return (
     <CollapsingToolbar headerTitle="Cursos">
