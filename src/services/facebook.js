@@ -21,26 +21,54 @@ const handleFbDataSave = async (data, accessToken) => {
 const mutationFirebase = async (item, accessToken) => {
   const id = item && item.id ? item.id : '';
   const name = item && item.name ? item.name : '';
-  const email = item && item.email ? item.email : ''; // check why email dont come
+  const email = item && item.email ? item.email : '';
   const objPicture = item && item.picture && item.picture.data;
   const picture = objPicture ? item.picture.data.url : '';
-  try {
-    await db.ref(`users/ + ${id}`).set({
+  await db
+    .collection('users')
+    .add({
       fbId: id,
       fbName: name,
       fbEmail: email,
       fbPictureUrl: picture,
+    })
+    .then(() => handleFbDataSave(item, accessToken))
+    .catch(error => {
+      console.log('error lol', error);
+      return Alert.alert(
+        'Ops!',
+        'Ocorreu um problema ao efetuar o login. Por favor, tenta novamente mais tarde.',
+        [{ text: 'OK' }],
+        { cancelable: false },
+      );
     });
-    return handleFbDataSave(item, accessToken);
-  } catch (err) {
-    console.log(`error on query:  + ${err}`);
-    return Alert.alert(
-      'Ops!',
-      'Ocorreu um problema ao efetuar o login. Por favor, tenta novamente mais tarde.',
-      [{ text: 'OK' }],
-      { cancelable: false },
-    );
-  }
+};
+
+const queryFirebase = async (item, accessToken) => {
+  let doubleCheck;
+  db.collection('users')
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        if (doc && doc.data().fbId === item.id) {
+          doubleCheck = true;
+        }
+      });
+      if (doubleCheck) {
+        handleFbDataSave(item, accessToken);
+      } else {
+        mutationFirebase(item, accessToken);
+      }
+    })
+    .catch(error => {
+      console.log('error lol', error);
+      return Alert.alert(
+        'Ops!',
+        'Ocorreu um problema ao efetuar o login. Por favor, tenta novamente mais tarde.',
+        [{ text: 'OK' }],
+        { cancelable: false },
+      );
+    });
 };
 
 function fbLogin() {
@@ -74,7 +102,8 @@ function fbLogin() {
                 console.log(`Error fetching data: ${e.toString()}`);
               } else {
                 // handleFbDataSave(r, accessToken);
-                await mutationFirebase(r, accessToken);
+                // await mutationFirebase(r, accessToken);
+                await queryFirebase(r, accessToken);
               }
             };
 
@@ -122,6 +151,8 @@ export default {
 // const usersRef = db.ref('users');
 
 // Create a query against the collection.
+// let query = usersRef.where('fbId', '==', id);
+// OR
 // const queryFirebase = async item => {
 //   let returnResult;
 //   await usersRef.once(
@@ -158,3 +189,18 @@ export default {
 //     },
 //   );
 // };
+// TODO - TO GET DATA FROM FB
+// axios
+//   .get(
+//     `https://graph.facebook.com/${id}
+//   ?fields=id,name,email,address,birthday,gender
+//   &access_token=${accessToken}`,
+//   )
+//   .then(response => {
+//     // handle success
+//     console.log('RESPONSE LOL', response);
+//   })
+//   .catch(error => {
+//     // handle error
+//     console.log('ERROZADA LOL', error);
+//   });
