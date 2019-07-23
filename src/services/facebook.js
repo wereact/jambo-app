@@ -145,6 +145,7 @@ export default {
   fbLogin,
   fbLogout,
   handleFbDataSave,
+  queryFirebase,
 };
 
 // How use Query on Firebase:

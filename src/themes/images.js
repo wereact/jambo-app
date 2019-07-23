@@ -7,6 +7,7 @@ const images = {
   imgGroupStudying: require('~/assets/images/img-group-studying.png'),
   imgGroupVideo: require('~/assets/images/img-group-video.png'),
   iconPlay: require('~/assets/images/icons/play.png'),
+  imgLoginFb: require('~/assets/images/img-login-fb.png'),
 };
 
 export default images;
