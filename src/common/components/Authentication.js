@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { ActivityIndicator, Platform } from 'react-native';
+import { ActivityIndicator, Platform, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components/native';
 import { AccessToken } from 'react-native-fbsdk';
 import AsyncStorage from '@react-native-community/async-storage';
+import { StackActions, NavigationActions } from 'react-navigation';
 
 import { Colors } from '~/themes';
 
@@ -23,7 +24,7 @@ const WrapperLoading = styled.View`
 
 const Authentication = props => {
   const { navigation } = props;
-  const { navigate, state } = navigation;
+  const { state } = navigation;
   const isLogout = state.params && navigation.state.params.isLogout;
 
   const getFbToken = async () => {
@@ -36,7 +37,7 @@ const Authentication = props => {
         returnFbToken = false;
       }
     } catch (e) {
-      // error reading value
+      console.log('error reading value on getFbToken', e);
     }
     return returnFbToken;
   };
@@ -58,13 +59,46 @@ const Authentication = props => {
         .catch(err => reject(err));
     });
 
+  const handleResetAction = LoggedIn => {
+    let resetAction;
+    if (LoggedIn) {
+      resetAction = StackActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({
+            routeName: 'TabBarStack',
+            params: {},
+          }),
+        ],
+      });
+    } else {
+      resetAction = StackActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({
+            routeName: 'LoginStack',
+            params: {},
+          }),
+        ],
+      });
+    }
+
+    return navigation.dispatch(resetAction);
+  };
+
   useEffect(() => {
     isLoggedIn()
       .then(LoggedIn => {
-        navigate(LoggedIn ? 'TabBarStack' : 'LoginScreen');
+        handleResetAction(LoggedIn);
       })
-      .catch(() => {
-        console.log('error on auth loading');
+      .catch(erro => {
+        console.log('error on auth loading', erro);
+        return Alert.alert(
+          'Ops!',
+          'Ocorreu um problema ao efetuar o login. Por favor, tenta novamente mais tarde.',
+          [{ text: 'OK' }],
+          { cancelable: false },
+        );
       });
   }, [isLogout]);
 

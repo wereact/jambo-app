@@ -8,6 +8,7 @@ import {
   GraphRequest,
   GraphRequestManager,
 } from 'react-native-fbsdk';
+import uuidv4 from 'uuid/v4';
 
 import { Navigator } from '~/common/utils';
 import { db } from '~/config/firebase';
@@ -27,6 +28,7 @@ const mutationFirebase = async (item, accessToken) => {
   await db
     .collection('users')
     .add({
+      id: uuidv4(),
       fbId: id,
       fbName: name,
       fbEmail: email,

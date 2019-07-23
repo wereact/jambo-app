@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { Alert, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-community/async-storage';
+import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
 import { FacebookService } from '~/services';
+import { db } from '~/config/firebase';
 import { StatusBarManager, CollapsingToolbar } from '~/common/components';
-import { ProfileDetails } from '~/modules/profile/components';
 import { Metrics, Images, Colors, Fonts } from '~/themes';
 
 const { size } = Metrics;
@@ -46,8 +49,8 @@ const ContentProfileAvatar = styled.View`
 const WrapperProfileAvatar = styled.View`
   margin-top: ${hp('15%')};
   border-color: ${white};
-  width: ${size(130)};
-  height: ${size(130)};
+  width: ${size(120)};
+  height: ${size(119)};
   border-radius: ${size(63)};
   border-width: ${size(2)};
 `;
@@ -88,6 +91,20 @@ const WrapperButton = styled.View`
   padding-bottom: ${hp('5%')};
 `;
 
+const styles = StyleSheet.create({
+  shimmerComponent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  postUserImage: {
+    width: size(116),
+    height: size(115),
+    borderRadius: size(63),
+    borderColor: white,
+    borderWidth: size(2),
+  },
+});
+
 export function profileScreenConfig() {
   return {
     header: null,
@@ -99,28 +116,60 @@ const ProfileScreen = props => {
   const { navigate } = navigation;
 
   const [profile, setProfile] = useState(null);
-
-  const loadData = async () => {
-    const profileFb = await AsyncStorage.getItem('@fb_data');
-    setProfile(JSON.parse(profileFb));
-  };
+  const [shimmer, setShimmer] = useState(false);
 
   const handleLogout = async () => {
     AsyncStorage.clear();
     navigate('Authentication', { isLogout: true });
   };
 
+  const queryFirebase = async data => {
+    let user;
+    let returnAlert;
+    db.collection('users')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          if (doc && doc.data().fbId === data.id) {
+            user = doc.data();
+          }
+        });
+        if (!user) {
+          returnAlert = Alert.alert(
+            'Ops!',
+            'Ocorreu um problema ao carregar os dados, tenta novamente mais tarde.',
+            [{ text: 'OK' }],
+            { cancelable: false },
+          );
+        }
+        setProfile(user);
+        setShimmer(true);
+        return returnAlert;
+      })
+      .catch(error => {
+        console.log('error lol', error);
+        return Alert.alert(
+          'Ops!',
+          'Ocorreu um problema ao carregar os dados, tenta novamente mais tarde.',
+          [{ text: 'OK' }],
+          { cancelable: false },
+        );
+      });
+  };
+
+  const loadData = async () => {
+    const profileFb = await AsyncStorage.getItem('@fb_data');
+    queryFirebase(JSON.parse(profileFb));
+  };
   useEffect(() => {
     loadData();
   }, []);
 
-  const profileAvatarLoaded = profile && profile.picture.data;
-  const profileNameLoaded = profile && profile.name;
-  const profileEmailLoaded = profile && profile.name;
+  const profileAvatarLoaded = profile && profile.fbPictureUrl;
+  const profileNameLoaded = profile && profile.fbName;
 
-  const profileAvatar = profileAvatarLoaded ? profile.picture.data.url : null;
-  const profileName = profileNameLoaded ? profile.name : '';
-  const profileEmail = profileEmailLoaded ? profile.email : '';
+  const profileAvatar = profileAvatarLoaded ? profile.fbPictureUrl : null;
+  const profileName = profileNameLoaded ? profile.fbName : '';
 
   return (
     <CollapsingToolbar headerTitle="Perfil" scrollEnabled={false}>
@@ -131,21 +180,29 @@ const ProfileScreen = props => {
         </WrapperBackgroundGroup>
         <ContentProfileAvatar>
           <WrapperProfileAvatar>
-            <ProfileAvatar
-              source={
-                profileAvatar ? { uri: profileAvatar } : imgAvatarPlaceHolder
-              }
-            />
+            <ShimmerPlaceHolder
+              style={styles.postUserImage}
+              backgroundColorBehindBorder="white"
+              visible={shimmer}
+            >
+              <ProfileAvatar
+                source={
+                  profileAvatar ? { uri: profileAvatar } : imgAvatarPlaceHolder
+                }
+              />
+            </ShimmerPlaceHolder>
           </WrapperProfileAvatar>
         </ContentProfileAvatar>
         <WrapperProfileName>
-          {profileName ? <ProfileName>{profileName}</ProfileName> : null}
+          <ShimmerPlaceHolder
+            style={styles.shimmerComponent}
+            autoRun
+            visible={shimmer}
+          >
+            {profileName ? <ProfileName>{profileName}</ProfileName> : null}
+          </ShimmerPlaceHolder>
         </WrapperProfileName>
-        <WrapperProfileDetails>
-          {profileEmail ? (
-            <ProfileDetails icon="email" detail={profileEmail} />
-          ) : null}
-        </WrapperProfileDetails>
+        <WrapperProfileDetails />
         <WrapperButton>
           {FacebookService.fbLogout(() => {
             handleLogout();

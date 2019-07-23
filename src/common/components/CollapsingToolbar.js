@@ -69,7 +69,7 @@ const ScrollContainer = styled.ScrollView.attrs(props => ({
   scrollEnabled: props.scrollEnabled,
 }))`
   flex: 1;
-  margin-top: ${hp('2%')};
+  margin-top: ${hp('1%')};
 `;
 
 const styles = StyleSheet.create({
