@@ -217,7 +217,12 @@ export default function GoogleSigninService(props) {
           >
             <TextLogout>Sair</TextLogout>
             <WrapperLogoutIcon>
-              <Icon name="logout" size={size(20)} color="red" />
+              <Icon
+                name="logout"
+                size={size(20)}
+                color="red"
+                onPress={() => onLogout()}
+              />
             </WrapperLogoutIcon>
           </WrapperLogout>
         </Wrapper>
@@ -238,6 +243,10 @@ export default function GoogleSigninService(props) {
 
   useEffect(() => {
     GoogleSignin.configure();
+    // GoogleSignin.configure({
+    //   webClientId:
+    //     '862748090723-0jdpa05ri8f7sto53ftg2psv5jst04do.apps.googleusercontent.com',
+    // });
     checkIsUserSignedIn();
   }, []);
 
