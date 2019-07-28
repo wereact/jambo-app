@@ -9,19 +9,36 @@ import {
 } from 'react-native-google-signin';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-community/async-storage';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import FirebaseService from './firebase';
-import { Colors, Metrics } from '~/themes';
+import { Colors, Metrics, Fonts } from '~/themes';
 
 const { jamboBlue, mediumGrey } = Colors;
 
 const { size } = Metrics;
+const { type, typography } = Fonts;
 
 const Wrapper = styled.View``;
 
-const Text = styled.Text``;
+const WrapperLogout = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: ${wp('17%')};
+`;
 
-const Button = styled.Button``;
+const WrapperLogoutIcon = styled.TouchableOpacity`
+  padding-top: ${size(5)};
+`;
+
+const TextLogout = styled.Text`
+  text-align: center;
+  font-family: ${type.sf.regular};
+  font-size: ${typography.h1};
+  color: ${jamboBlue};
+`;
 
 const styles = StyleSheet.create({
   buttonSize: {
@@ -159,6 +176,21 @@ export default function GoogleSigninService(props) {
     }
   };
 
+  const onLogout = () => {
+    Alert.alert(
+      'Confirmação',
+      'Deseja realmente Sair?',
+      [
+        { text: 'Não', onPress: () => null, style: 'cancel' },
+        {
+          text: 'Sim',
+          onPress: () => signOut(),
+        },
+      ],
+      { cancelable: false },
+    );
+  };
+
   const handleShowButton = () => {
     let returnShowButton;
     const userLogin = isUserSignedIn && loggedInUser && loggedInUser.user;
@@ -174,8 +206,20 @@ export default function GoogleSigninService(props) {
     } else if (userLogin) {
       returnShowButton = (
         <Wrapper>
-          <Text>Welcome {loggedInUser.user.name} </Text>
-          <Button title="Log out" onPress={signOut} />
+          <WrapperLogout
+            onPress={() => onLogout()}
+            hitSlop={{
+              top: 10,
+              left: 10,
+              bottom: 10,
+              right: 10,
+            }}
+          >
+            <TextLogout>Sair</TextLogout>
+            <WrapperLogoutIcon>
+              <Icon name="logout" size={size(20)} color="red" />
+            </WrapperLogoutIcon>
+          </WrapperLogout>
         </Wrapper>
       );
     } else {

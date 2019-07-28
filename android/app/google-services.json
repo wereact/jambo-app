@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "862748090723",
+    "firebase_url": "https://jambo-tech-4fd1e.firebaseio.com",
+    "project_id": "jambo-tech-4fd1e",
+    "storage_bucket": "jambo-tech-4fd1e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862748090723:android:53a7028fe30a4294",
+        "android_client_info": {
+          "package_name": "com.jambo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "862748090723-ch1rtc6uikpsofl6capl1i9gs3044aar.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jambo",
+            "certificate_hash": "66d54a20d760e6916347ba5a1b629e84527fd86f"
+          }
+        },
+        {
+          "client_id": "862748090723-0jdpa05ri8f7sto53ftg2psv5jst04do.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7pyL9WpNekDZqlLm0Dn36fis0nARUFfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "862748090723-0jdpa05ri8f7sto53ftg2psv5jst04do.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "862748090723-l49a5rif9glnm1l59i5priv6k2a00ig7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jambo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
