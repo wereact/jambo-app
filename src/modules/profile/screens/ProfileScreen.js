@@ -11,7 +11,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import { FacebookService } from '~/services';
+import { GoogleSigninService } from '~/services';
 import { db } from '~/config/firebase';
 import { StatusBarManager, CollapsingToolbar } from '~/common/components';
 import { Metrics, Images, Colors, Fonts } from '~/themes';
@@ -113,24 +113,18 @@ export function profileScreenConfig() {
 
 const ProfileScreen = props => {
   const { navigation } = props;
-  const { navigate } = navigation;
 
   const [profile, setProfile] = useState(null);
   const [shimmer, setShimmer] = useState(false);
 
-  const handleLogout = async () => {
-    AsyncStorage.clear();
-    navigate('Authentication', { isLogout: true });
-  };
-
-  const queryFirebase = async data => {
+  const profileQuery = async data => {
     let user;
     let returnAlert;
     db.collection('users')
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
-          if (doc && doc.data().fbId === data.id) {
+          if (doc && doc.data().googleId === data.user.id) {
             user = doc.data();
           }
         });
@@ -158,18 +152,18 @@ const ProfileScreen = props => {
   };
 
   const loadData = async () => {
-    const profileFb = await AsyncStorage.getItem('@fb_data');
-    queryFirebase(JSON.parse(profileFb));
+    const profileFb = await AsyncStorage.getItem('@user_data');
+    profileQuery(JSON.parse(profileFb));
   };
   useEffect(() => {
     loadData();
   }, []);
 
-  const profileAvatarLoaded = profile && profile.fbPictureUrl;
-  const profileNameLoaded = profile && profile.fbName;
+  const profileAvatarLoaded = profile && profile.photo;
+  const profileNameLoaded = profile && profile.name;
 
-  const profileAvatar = profileAvatarLoaded ? profile.fbPictureUrl : null;
-  const profileName = profileNameLoaded ? profile.fbName : '';
+  const profileAvatar = profileAvatarLoaded ? profile.photo : null;
+  const profileName = profileNameLoaded ? profile.name : '';
 
   return (
     <CollapsingToolbar headerTitle="Perfil" scrollEnabled={false}>
@@ -204,9 +198,7 @@ const ProfileScreen = props => {
         </WrapperProfileName>
         <WrapperProfileDetails />
         <WrapperButton>
-          {FacebookService.fbLogout(() => {
-            handleLogout();
-          })}
+          <GoogleSigninService navigation={navigation} />
         </WrapperButton>
       </Content>
     </CollapsingToolbar>

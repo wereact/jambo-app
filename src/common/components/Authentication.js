@@ -3,7 +3,6 @@ import { ActivityIndicator, Platform, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components/native';
-import { AccessToken } from 'react-native-fbsdk';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackActions, NavigationActions } from 'react-navigation';
 
@@ -27,37 +26,53 @@ const Authentication = props => {
   const { state } = navigation;
   const isLogout = state.params && navigation.state.params.isLogout;
 
-  const getFbToken = async () => {
-    let returnFbToken;
+  const getIdToken = async () => {
+    let returnIdToken;
     try {
-      const fbToken = await AsyncStorage.getItem('@fb_access_token');
-      if (fbToken !== null) {
-        returnFbToken = true;
+      const idToken = await AsyncStorage.getItem('@idToken');
+      console.log('idToken lol', idToken);
+      if (idToken !== null) {
+        returnIdToken = true;
       } else {
-        returnFbToken = false;
+        returnIdToken = false;
       }
     } catch (e) {
-      console.log('error reading value on getFbToken', e);
+      console.log('error on try reading the IdToken: ', e);
     }
-    return returnFbToken;
+    return returnIdToken;
   };
 
-  const isLoggedIn = () =>
-    new Promise((resolve, reject) => {
-      AccessToken.getCurrentAccessToken()
-        .then(data => {
-          if (data) {
-            if (data.accessToken) {
-              resolve(true);
-            } else {
-              resolve(getFbToken());
-            }
-          } else {
-            resolve(getFbToken());
-          }
-        })
-        .catch(err => reject(err));
-    });
+  // const getFbToken = async () => {
+  //   let returnFbToken;
+  //   try {
+  //     const fbToken = await AsyncStorage.getItem('@fb_access_token');
+  //     if (fbToken !== null) {
+  //       returnFbToken = true;
+  //     } else {
+  //       returnFbToken = false;
+  //     }
+  //   } catch (e) {
+  //     console.log('error reading value on getFbToken', e);
+  //   }
+  //   return returnFbToken;
+  // };
+
+  // const isLoggedIn = () =>
+  //   new Promise((resolve, reject) => {
+  //     AccessToken.getCurrentAccessToken()
+  //       .then(data => {
+  //         if (data) {
+  //           if (data.accessToken) {
+  //             resolve(true);
+  //           } else {
+  //             resolve(getFbToken());
+  //           }
+  //         } else {
+  //           resolve(getFbToken());
+  //         }
+  //       })
+  //       .catch(err => reject(err));
+  //   });
 
   const handleResetAction = LoggedIn => {
     let resetAction;
@@ -87,7 +102,7 @@ const Authentication = props => {
   };
 
   useEffect(() => {
-    isLoggedIn()
+    getIdToken()
       .then(LoggedIn => {
         handleResetAction(LoggedIn);
       })
@@ -100,6 +115,19 @@ const Authentication = props => {
           { cancelable: false },
         );
       });
+    // isLoggedIn()
+    //   .then(LoggedIn => {
+    //     handleResetAction(LoggedIn);
+    //   })
+    //   .catch(erro => {
+    //     console.log('error on auth loading', erro);
+    //     return Alert.alert(
+    //       'Ops!',
+    //       'Ocorreu um problema ao efetuar o login. Por favor, tenta novamente mais tarde.',
+    //       [{ text: 'OK' }],
+    //       { cancelable: false },
+    //     );
+    //   });
   }, [isLogout]);
 
   return (
